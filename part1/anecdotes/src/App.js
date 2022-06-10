@@ -1,10 +1,22 @@
 import { useState } from 'react'
 
+const Header = (props) => {
+  return <h1>{props.contents}</h1>
+}
+
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>
     {text}
   </button>
 )
+
+const Vote = ({vote}) => (
+  <p>has {vote} votes</p>
+)
+
+const HighestVoted = ({vote}) => {
+  return <p>{vote}</p>
+}
 
 const App = () => {
   const anecdotes = [
@@ -16,30 +28,34 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
   ]
-   
-  const [selected, setSelected] = useState(0)
-  const [vote, setVotes] = useState(new Array(anecdotes.length).fill(0))
+  
+  const random = () => (
+    Math.floor(Math.random() * anecdotes.length)
+  )
 
-  const handleRandomButtonClick = () => {
-    if (selected >= anecdotes.length - 1) setSelected(0)
-    else setSelected(selected + 1)
-    console.log(selected)
+  const [selected, setSelected] = useState(0)
+  const [vote, setVote] = useState(new Array(anecdotes.length).fill(0))
+
+  const handleNextButtonClick = () => {
+    setSelected(random)
   }
 
   const handleVoteClick = () => {
     const copy = [...vote]
     copy[selected] += 1
-    setVotes(copy)
+    setVote(copy)
   }
 
   return (
     <div>
+      <Header contents="Anecdote of the day"/>
       {anecdotes[selected]}
-      <br></br>
-      has {vote[selected]} votes
-      <br></br>
+      <Vote vote={vote[selected]}/>
       <Button handleClick={handleVoteClick} text="vote"/>
-      <Button handleClick={handleRandomButtonClick} text="next anecdote"/>
+      <Button handleClick={handleNextButtonClick} text="next anecdote"/>
+      <Header contents="Anecdote with most votes"/>
+      <HighestVoted vote={anecdotes[vote.indexOf(Math.max(...vote))]}/>
+      <Vote vote={Math.max(...vote)}/>
     </div>
   )
 }
