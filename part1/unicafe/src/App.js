@@ -26,12 +26,12 @@ const Statistics = (props) => {
 
   return (
     <div>
-      <StatisticsLine text='good' value={good} />
-      <StatisticsLine text='neutral' value={neutral} />
-      <StatisticsLine text='bad' value={bad} />
-      <StatisticsLine text='all' value={sum} />
-      <StatisticsLine text='average' value={average} />
-      <StatisticsLine text='positive' value={positive} symbol='%' />
+      <StatisticsLine text="good" value={good} />
+      <StatisticsLine text="neutral" value={neutral} />
+      <StatisticsLine text="bad" value={bad} />
+      <StatisticsLine text="all" value={sum} />
+      <StatisticsLine text="average" value={average} />
+      <StatisticsLine text="positive" value={positive} symbol="%" />
     </div>
   )
 }
