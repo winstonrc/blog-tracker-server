@@ -5,12 +5,16 @@ import CountryDetails from './CountryDetails'
 const Countries = ({countries}) => {
     const [selectedCountry, setSelectedCountry] = useState(undefined)
 
+    // reset if list of countries changes
     useEffect(() => {
         setSelectedCountry(undefined)
     }, [countries])
 
-    const handleButton = ({country}) => {
-        setSelectedCountry(country)
+    const areNamesIdentical = country => selectedCountry && selectedCountry.name.common === country.name.common
+    
+    const handleButton = country => () => {
+        if (areNamesIdentical(country)) setSelectedCountry(undefined)
+        else setSelectedCountry(country)
     }
 
     if (countries.length === 1) {
@@ -23,12 +27,17 @@ const Countries = ({countries}) => {
     else if (countries.length <= 10) {
         return (
             <div>
-                {countries.map(country =>
-                <div key={country.name.common}>
-                    {country.name.common}
-                    {/* <button onClick={handleButton(country) ? 'hide' : 'show'}></button> */}
-                </div>
-                )}
+                {countries.map(country => {
+                    const name = country.name.common
+                    return (
+                        <div key={name}>
+                            {name}
+                            <button onClick={handleButton(country)}>{areNamesIdentical(country) ? 'hide' : 'show'}</button>
+                        </div>
+                    )
+                })}
+
+                {selectedCountry && <CountryDetails country={selectedCountry}/>}
             </div>
         )
     }

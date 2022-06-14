@@ -34,7 +34,7 @@ const handleFilterChange = (event) => setFilter(event.target.value)
     <div>
       <h1>Countries</h1>
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
-      <Countries filteredCountries={filteredCountries}/>
+      <Countries countries={filteredCountries}/>
     </div>
   )
 }
