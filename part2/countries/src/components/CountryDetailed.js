@@ -16,7 +16,7 @@ const CountryDetailed = ({country}) => {
                     : 'n/a'
                 }
             </ul>
-            {country.flags?.png && <img src={country.flags.png} alt ={'Flaf of ' + country.name.common}/>}
+            {country.flags?.png && <img src={country.flags.png} alt ={'Flag of ' + country.name.common}/>}
         </div>        
     )
 }
