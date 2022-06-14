@@ -19,7 +19,7 @@ function App() {
   }, [])
   console.log('render', countries.length, 'countries')
 
-  const countriesToShow = filter
+  const filteredCountries = filter
   ? countries.filter(country => {
     if (country.name.common.toLowerCase().includes(filter.toLowerCase())) {
       return true
@@ -28,14 +28,13 @@ function App() {
   })
   : countries
 
-const handleFilterChange = (event) => {
-  setFilter(event.target.value)
-}
+const handleFilterChange = (event) => setFilter(event.target.value)
 
   return (
     <div>
+      <h1>Countries</h1>
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
-      <Countries countriesToShow={countriesToShow}/>
+      <Countries filteredCountries={filteredCountries}/>
     </div>
   )
 }
