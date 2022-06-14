@@ -1,34 +1,32 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
-import CountryDetailed from './CountryDetailed'
+import CountryDetails from './CountryDetails'
 
-const Countries = ({filteredCountries}) => {
+const Countries = ({countries}) => {
     const [selectedCountry, setSelectedCountry] = useState(undefined)
 
     useEffect(() => {
         setSelectedCountry(undefined)
-    }, [filteredCountries])
+    }, [countries])
 
     const handleButton = ({country}) => {
         setSelectedCountry(country)
     }
 
-    if (filteredCountries.length === 1) {
+    if (countries.length === 1) {
         return (
             <div>
-                {filteredCountries.map(country =>
-                <CountryDetailed key={country.name.common} country={country}/>
-                )}
+                <CountryDetails country={countries[0]}/>
             </div>
         )
     }
-    else if (filteredCountries.length <= 10) {
+    else if (countries.length <= 10) {
         return (
             <div>
-                {filteredCountries.map(country =>
+                {countries.map(country =>
                 <div key={country.name.common}>
                     {country.name.common}
-                    <button>show</button>
+                    {/* <button onClick={handleButton(country) ? 'hide' : 'show'}></button> */}
                 </div>
                 )}
             </div>
