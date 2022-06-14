@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CountryDetailed = ({country}) => {
+const CountryDetails = ({country}) => {
     return (
         <div>
             <h2>{country.name.common}</h2>
@@ -21,4 +21,4 @@ const CountryDetailed = ({country}) => {
     )
 }
 
-export default CountryDetailed
+export default CountryDetails
