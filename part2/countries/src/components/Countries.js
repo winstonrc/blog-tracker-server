@@ -36,7 +36,6 @@ const Countries = ({countries}) => {
                         </div>
                     )
                 })}
-
                 {selectedCountry && <CountryDetails country={selectedCountry}/>}
             </div>
         )
