@@ -25,8 +25,11 @@ const App = () => {
       number: newNum,
     }
 
+    // check if name exists
     if (!persons.find(element => element.name === personObject.name)) {
+      // check if number entered is empty
       if (personObject.number !== '') {
+        // check if number already is in the phonebook
         if (!persons.find(element => element.number === personObject.number)) {
           personService
             .create(personObject)
@@ -36,6 +39,7 @@ const App = () => {
               setNewNum('')
             })
         } else alert(`${newNum} has already been added to phonebook`)
+        // add person to phonebook
       } else {
         personService
             .create(personObject)
@@ -46,7 +50,24 @@ const App = () => {
             })
       }
       console.log('person added', personObject)
-    } else alert(`${newName} has already been added to phonebook`)
+    } else {
+      // if name already exists in the phonebook, ask to update the associated number
+        if (window.confirm(`${newName} has already been added to phonebook.
+        \nUpdate their phone number?`)) {
+          
+          const person = persons.find(p => p.name === newName)
+          const changedPerson = {...person, number: newNum}
+          personService
+            .update(person.id, changedPerson)
+            .then(changedPerson => {
+              setPersons(persons.map(person => person.name !== newName ? person : changedPerson))
+            })
+            .catch(error => {
+              alert(`${person.name} is not on the server`)
+              setPersons(persons.filter(p => p.id !== personObject.id))
+            })
+        }
+    }
   }
 
   const deletePerson = id => {
@@ -54,7 +75,7 @@ const App = () => {
 
     if (window.confirm(`Delete ${person.name} ?`)) {
       personService
-        .deletePerson(id)
+        .remove(id)
         .then(returnedPerson => {
           setPersons(persons.filter(p => p.id !== id))
         })
