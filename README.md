@@ -2,4 +2,6 @@
 
 This is my repository for completing the [Full Stack Open 2022](https://fullstackopen.com/en/) course.
 
-Part 3 is located [here](https://github.com/winstoncooke/fullstackopen-part3-phone-backend)
+The phone project is located here: [frontend](https://github.com/winstoncooke/fullstackopen-phone-frontend), [backend](https://github.com/winstoncooke/fullstackopen-phone-backend)
+
+The blog project is located here: [frontend](https://github.com/winstoncooke/fullstackopen-blog-frontend), [backend](https://github.com/winstoncooke/fullstackopen-blog-backend)
