@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze'
 import counterReducer from './reducer'
 
-describe('unicafe reducer', () => {
+describe('with initial values set to zero', () => {
   const initialState = {
     good: 0,
     ok: 0,
@@ -60,6 +60,29 @@ describe('unicafe reducer', () => {
       good: 0,
       ok: 0,
       bad: 1
+    })
+  })
+})
+
+describe('with initial values set to one', () => {
+  const initialState = {
+    good: 1,
+    ok: 1,
+    bad: 1
+  }
+
+  test('reset sets all values to 0', () => {
+    const action = {
+      type: 'RESET'
+    }
+    const state = initialState
+
+    deepFreeze(state)
+    const newState = counterReducer(state, action)
+    expect(newState).toEqual({
+      good: 0,
+      ok: 0,
+      bad: 0
     })
   })
 })
