@@ -29,7 +29,7 @@ const noteSlice = createSlice({
         id: generateId(),
       })
     },
-    toggleImportanceOf(state, action) {
+    toggleImportance(state, action) {
       const id = action.payload
       const noteToChange = state.find(n => n.id === id)
       const changedNote = {
@@ -43,5 +43,5 @@ const noteSlice = createSlice({
   },
 })
 
-export const { createNote, toggleImportanceOf } = noteSlice.actions
+export const { createNote, toggleImportance } = noteSlice.actions
 export default noteSlice.reducer
