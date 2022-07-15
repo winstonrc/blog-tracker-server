@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import anecdoteService from '../services/anecdotes'
 
 const Anecdote = ({ anecdote, handleClick }) => {
     return (
