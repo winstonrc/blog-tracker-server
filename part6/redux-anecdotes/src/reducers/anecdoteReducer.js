@@ -1,14 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-// sort the anecdotes!! .sort((a, b) => b.votes - a.votes)
-
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
   initialState: [],
   reducers: {
     addAnecdote(state, action) {
-      const content = action.payload
-      state.push({ content, votes: 0 })
+      state.push(action.payload)
     },
     vote(state, action) {
       const id = action.payload
@@ -27,7 +24,7 @@ const anecdoteSlice = createSlice({
       state.push(action.payload)
     },
     setAnecdotes(state, action) {
-      return action.payload
+      return action.payload.sort((a, b) => b.votes - a.votes)
     }
   },
 })
