@@ -7,4 +7,16 @@ const getAll = async () => {
   return response.data
 }
 
-export default { getAll }
+const createNote = async (content) => {
+    const object = { content, important: false }
+    const response = await axios.post(baseUrl, object)
+    return response.data
+}
+
+const updateNote = async (note) => {
+    const object = {...note, important: !note.important}
+    const response = await axios.put(`${baseUrl}/${note.id}`, object)
+    return response.data
+}
+
+export default { getAll, createNote, updateNote }
