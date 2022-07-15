@@ -2,8 +2,6 @@ import { useEffect } from 'react'
 import NewNote from './components/NewNote'
 import VisibilityFilter from './components/VisibilityFilter'
 import Notes from './components/Notes'
-import noteService from './services/notes'
-import { setNotes } from './reducers/noteReducer'
 import { useDispatch } from 'react-redux'
 import { initalizeNotes } from './reducers/noteReducer'
 
