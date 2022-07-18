@@ -78,24 +78,32 @@ const CreateNew = (props) => {
     navigate('/')
   }
 
+  const handleReset = (event) => {
+    event.preventDefault()
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content &nbsp;
-          <input name='content' {...content} />
+          <input name='content' {...content} reset={null} />
         </div>
         <div>
           author &nbsp;
-          <input name='author' {...author} />
+          <input name='author' {...author} reset={null} />
         </div>
         <div>
           url for more info &nbsp;
           {/* URLs created here default to localhost, rendering outbound URLs invalid */}
-          <input name='info' {...info} /> 
+          <input name='info' {...info} reset={null} /> 
         </div>
         <button>create</button>
+        <button onClick={(event) => handleReset(event)}>reset</button>
       </form>
     </div>
   )
