@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {
-  Routes, Route, Link, useMatch
+  Routes, Route, Link, useMatch, useNavigate
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -64,6 +64,7 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -73,6 +74,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigate('/')
   }
 
   return (
@@ -80,22 +82,35 @@ const CreateNew = (props) => {
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          content
+          content &nbsp;
           <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
         </div>
         <div>
-          author
+          author &nbsp;
           <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
         </div>
         <div>
-          url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          url for more info &nbsp;
+          {/* URLs created here default to localhost, rendering outbound URLs invalid */}
+          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} /> 
         </div>
         <button>create</button>
       </form>
     </div>
   )
 
+}
+
+const Notification = ({ message }) => {
+  if (message === '') {
+    return ''
+  }
+
+  return (
+    <div>
+      {message}
+    </div>
+  )
 }
 
 const App = () => {
@@ -121,6 +136,10 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`Anecdote created: ${anecdote.content}`)
+    setTimeout(() => {
+      setNotification('')
+    }, 5000)
   }
 
   const anecdoteById = (id) =>
@@ -146,11 +165,12 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      <Notification message={notification}/>
       <div>
         <Routes>
           <Route path='/anecdotes/:id' element={<Anecdote anecdote={anecdote}/>}/>
           <Route path='/' element={<AnecdoteList anecdotes={anecdotes}/>}/>
-          <Route path='/create' element={<CreateNew addNew={addNew}/>}/>
+          <Route path='/create' element={<CreateNew addNew={addNew} setNotification={setNotification}/>}/>
           <Route path='/about' element={<About/>}/>
         </Routes>
       </div>
