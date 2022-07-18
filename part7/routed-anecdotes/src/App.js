@@ -53,9 +53,9 @@ const About = () => (
 const Footer = () => (
   <div>
   <br/>
-    Anecdote app for <a href='https://fullstackopen.com/'>Full Stack Open</a>.
-
-    See <a href='https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js</a> for the source code.
+    Anecdote app for <a href='https://fullstackopen.com/en'>Full Stack Open</a>.
+    <br/>
+    See <a href='https://github.com/winstoncooke/fullstackopen-2022/blob/main/part7/routed-anecdotes/src/App.js'>https://github.com/winstoncooke/fullstackopen-2022/blob/main/part7/routed-anecdotes/src/App.js</a> for the source code.
   </div>
 )
 
