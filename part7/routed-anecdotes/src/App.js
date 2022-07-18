@@ -99,7 +99,6 @@ const CreateNew = (props) => {
         </div>
         <div>
           url for more info &nbsp;
-          {/* URLs created here default to localhost, rendering outbound URLs invalid */}
           <input name='info' {...info} reset={null} /> 
         </div>
         <button>create</button>
