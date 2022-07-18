@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   Routes, Route, Link, useMatch, useNavigate
 } from 'react-router-dom'
+import { useField } from './hooks'
 
 const Menu = () => {
   const padding = {
@@ -60,18 +61,18 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const content = useField('text')
+  const author = useField('text')
+  const info = useField('text')
 
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     })
     navigate('/')
@@ -83,16 +84,16 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content &nbsp;
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input name='content' {...content} />
         </div>
         <div>
           author &nbsp;
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input name='author' {...author} />
         </div>
         <div>
           url for more info &nbsp;
           {/* URLs created here default to localhost, rendering outbound URLs invalid */}
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} /> 
+          <input name='info' {...info} /> 
         </div>
         <button>create</button>
       </form>
@@ -170,7 +171,7 @@ const App = () => {
         <Routes>
           <Route path='/anecdotes/:id' element={<Anecdote anecdote={anecdote}/>}/>
           <Route path='/' element={<AnecdoteList anecdotes={anecdotes}/>}/>
-          <Route path='/create' element={<CreateNew addNew={addNew} setNotification={setNotification}/>}/>
+          <Route path='/create' element={<CreateNew addNew={addNew}/>}/>
           <Route path='/about' element={<About/>}/>
         </Routes>
       </div>
