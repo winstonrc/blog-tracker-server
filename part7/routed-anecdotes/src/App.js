@@ -23,8 +23,16 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link></li>)}
     </ul>
+  </div>
+)
+
+const Anecdote = ({ anecdote }) => (
+  <div>
+    <h2>{anecdote.content} - {anecdote.author}</h2>
+    <div>Has {anecdote.votes} votes</div>
+    For more info see: <a href={anecdote.info}>{anecdote.info}</a>
   </div>
 )
 
@@ -44,6 +52,7 @@ const About = () => (
 
 const Footer = () => (
   <div>
+  <br/>
     Anecdote app for <a href='https://fullstackopen.com/'>Full Stack Open</a>.
 
     See <a href='https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js</a> for the source code.
@@ -128,15 +137,18 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
+  const match = useMatch('/anecdotes/:id')
+  const anecdote = match
+    ? anecdotes.find(anecdote => anecdote.id === Number(match.params.id))
+    : null
+
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
-      {/* <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} /> */}
       <div>
         <Routes>
+          <Route path='/anecdotes/:id' element={<Anecdote anecdote={anecdote}/>}/>
           <Route path='/' element={<AnecdoteList anecdotes={anecdotes}/>}/>
           <Route path='/create' element={<CreateNew addNew={addNew}/>}/>
           <Route path='/about' element={<About/>}/>
