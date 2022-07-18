@@ -33,7 +33,7 @@ const Anecdote = ({ anecdote }) => (
   <div>
     <h2>{anecdote.content} - {anecdote.author}</h2>
     <div>Has {anecdote.votes} votes</div>
-    For more info see: <a href={anecdote.info}>{anecdote.info}</a>
+    For more info see: <a href={`http://${anecdote.info}`}>{anecdote.info}</a>
   </div>
 )
 
