@@ -1,18 +1,18 @@
-import { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
-import Notification from "./components/Notification";
-import LoginForm from "./components/LoginForm";
-import BlogForm from "./components/BlogForm";
-import Togglable from "./components/Togglable";
-import blogService from "./services/blogs";
-import loginService from "./services/login";
+import { useState, useEffect, useRef } from 'react';
+import Blog from './components/Blog';
+import Notification from './components/Notification';
+import LoginForm from './components/LoginForm';
+import BlogForm from './components/BlogForm';
+import Togglable from './components/Togglable';
+import blogService from './services/blogs';
+import loginService from './services/login';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [notificationColor, setNotificationColor] = useState(null);
   const [notification, setNotification] = useState(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const blogFormRef = useRef();
 
@@ -23,7 +23,7 @@ const App = () => {
 
   // check for logged in user when page loads
   useEffect(() => {
-    const loggedInUserJSON = window.localStorage.getItem("loggedInUser");
+    const loggedInUserJSON = window.localStorage.getItem('loggedInUser');
     if (loggedInUserJSON) {
       const user = JSON.parse(loggedInUserJSON);
       setUser(user);
@@ -36,20 +36,20 @@ const App = () => {
 
     try {
       const user = await loginService.login({ username, password });
-      window.localStorage.setItem("loggedInUser", JSON.stringify(user));
+      window.localStorage.setItem('loggedInUser', JSON.stringify(user));
       blogService.setToken(user.token);
       setUser(user);
-      setUsername("");
-      setPassword("");
-      setNotificationColor("green");
+      setUsername('');
+      setPassword('');
+      setNotificationColor('green');
       setNotification(`Welcome ${user.name}`);
       setTimeout(() => {
         setNotification(null);
       }, 5000);
     } catch (error) {
-      setNotificationColor("red");
-      setNotification("Invalid credentials");
-      setPassword("");
+      setNotificationColor('red');
+      setNotification('Invalid credentials');
+      setPassword('');
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -60,12 +60,12 @@ const App = () => {
     event.preventDefault();
 
     try {
-      window.localStorage.removeItem("loggedInUser");
-      await blogService.setToken("");
+      window.localStorage.removeItem('loggedInUser');
+      await blogService.setToken('');
       setUser(null);
     } catch (error) {
-      setNotificationColor("red");
-      setNotification("Unable to logout");
+      setNotificationColor('red');
+      setNotification('Unable to logout');
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -79,9 +79,9 @@ const App = () => {
     try {
       const response = await blogService.create(blogObject);
       setBlogs(blogs.concat(response));
-      console.log("response.user", response.user.username);
-      console.log("user", user);
-      setNotificationColor("green");
+      console.log('response.user', response.user.username);
+      console.log('user', user);
+      setNotificationColor('green');
       setNotification(
         `Added ${blogObject.title} by ${blogObject.author} to the list`
       );
@@ -99,8 +99,8 @@ const App = () => {
       await blogService.update(blog);
       setBlogs(blogs.map((b) => (b.id !== blog.id ? b : blog)));
     } catch (error) {
-      setNotificationColor("red");
-      setNotification("Unable to remove blog");
+      setNotificationColor('red');
+      setNotification('Unable to remove blog');
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -114,8 +114,8 @@ const App = () => {
         await blogService.remove(blog.id);
         setBlogs(blogs.filter((b) => b.id !== blog.id));
       } catch (error) {
-        setNotificationColor("red");
-        setNotification("Unable to remove blog");
+        setNotificationColor('red');
+        setNotification('Unable to remove blog');
         setTimeout(() => {
           setNotification(null);
         }, 5000);
@@ -124,17 +124,17 @@ const App = () => {
   };
 
   const errorHandler = (blogObject) => {
-    if (blogObject.title === "") {
-      setNotificationColor("red");
-      setNotification("Error: A title is required");
+    if (blogObject.title === '') {
+      setNotificationColor('red');
+      setNotification('Error: A title is required');
       setTimeout(() => {
         setNotification(null);
       }, 5000);
     }
 
-    if (blogObject.url === "") {
-      setNotificationColor("red");
-      setNotification("Error: An URL is required");
+    if (blogObject.url === '') {
+      setNotificationColor('red');
+      setNotification('Error: An URL is required');
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -155,7 +155,7 @@ const App = () => {
 
   const blogForm = () => {
     return (
-      <Togglable buttonLabel="add blog" ref={blogFormRef}>
+      <Togglable buttonLabel='add blog' ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
       </Togglable>
     );
@@ -172,9 +172,9 @@ const App = () => {
         // if user is logged in
         <div>
           <p>
-            Logged in as {user.name}{" "}
+            Logged in as {user.name}{' '}
             {
-              <button className="logoutButton" onClick={handleLogout}>
+              <button className='logoutButton' onClick={handleLogout}>
                 logout
               </button>
             }
