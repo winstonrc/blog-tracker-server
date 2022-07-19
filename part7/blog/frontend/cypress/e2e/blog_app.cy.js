@@ -28,7 +28,7 @@ describe('Blog app', function () {
       cy.get('#password').type('wrong-password');
       cy.get('#login-button').click();
 
-      cy.get('.error')
+      cy.get('.notification')
         .should('contain', 'Invalid credentials')
         .and('have.css', 'color', 'rgb(255, 0, 0)')
         .and('have.css', 'border-style', 'solid');
