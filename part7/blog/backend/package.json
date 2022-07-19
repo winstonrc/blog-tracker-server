@@ -23,9 +23,9 @@
   "author": "Winston Cooke",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/winstoncooke/fullstackopen-part4-blog-backend/issues"
+    "url": "https://github.com/winstoncooke/fullstackopen-blog-backend/issues"
   },
-  "homepage": "https://github.com/winstoncooke/fullstackopen-part4-blog-backend#readme",
+  "homepage": "https://github.com/winstoncooke/fullstackopen-blog-backend#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
@@ -41,9 +41,11 @@
   "devDependencies": {
     "eslint": "^8.19.0",
     "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "jest": "^28.1.2",
     "nodemon": "^2.0.18",
+    "prettier": "2.7.1",
     "supertest": "^6.2.4"
   },
   "jest": {

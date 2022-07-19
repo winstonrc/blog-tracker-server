@@ -1,35 +1,35 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 const BlogForm = ({ createBlog }) => {
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
+  const [newTitle, setNewTitle] = useState("");
+  const [newAuthor, setNewAuthor] = useState("");
+  const [newUrl, setNewUrl] = useState("");
 
   const handleTitleChange = (event) => {
-    setNewTitle(event.target.value)
-  }
+    setNewTitle(event.target.value);
+  };
 
   const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value)
-  }
+    setNewAuthor(event.target.value);
+  };
 
   const handleUrlChange = (event) => {
-    setNewUrl(event.target.value)
-  }
+    setNewUrl(event.target.value);
+  };
 
   const addBlog = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     createBlog({
       title: newTitle,
       author: newAuthor,
       url: newUrl,
       likes: 0,
-    })
+    });
 
-    setNewTitle('')
-    setNewAuthor('')
-    setNewUrl('')
-  }
+    setNewTitle("");
+    setNewAuthor("");
+    setNewUrl("");
+  };
 
   return (
     <div>
@@ -41,7 +41,7 @@ const BlogForm = ({ createBlog }) => {
           <input
             value={newTitle}
             onChange={handleTitleChange}
-            className='titleInput'
+            className="titleInput"
           />
         </div>
 
@@ -50,7 +50,7 @@ const BlogForm = ({ createBlog }) => {
           <input
             value={newAuthor}
             onChange={handleAuthorChange}
-            className='authorInput'
+            className="authorInput"
           />
         </div>
 
@@ -59,15 +59,16 @@ const BlogForm = ({ createBlog }) => {
           <input
             value={newUrl}
             onChange={handleUrlChange}
-            className='urlInput'
+            className="urlInput"
           />
         </div>
 
-        <button type="submit" className='form'>add</button>
-
+        <button type="submit" className="form">
+          add
+        </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default BlogForm
+export default BlogForm;
