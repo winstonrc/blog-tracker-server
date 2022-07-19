@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const LoginForm = ({
   username,
@@ -15,10 +15,10 @@ const LoginForm = ({
         <div>
           Username &nbsp;
           <input
-            id="username"
-            type="text"
+            id='username'
+            type='text'
             value={username}
-            name="Username"
+            name='Username'
             onChange={handleUsernameChange}
           />
         </div>
@@ -26,15 +26,15 @@ const LoginForm = ({
         <div>
           Password &nbsp;&nbsp;
           <input
-            id="password"
-            type="password"
+            id='password'
+            type='password'
             value={password}
-            name="Password"
+            name='Password'
             onChange={handlePasswordChange}
           />
         </div>
 
-        <button id="login-button" type="submit">
+        <button id='login-button' type='submit'>
           login
         </button>
       </form>
