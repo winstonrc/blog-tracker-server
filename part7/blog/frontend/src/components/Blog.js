@@ -35,8 +35,6 @@ const Blog = ({ blog, user, updateBlog, deleteBlog }) => {
   };
 
   const showRemoveButton = () => {
-    console.log('user', user.username);
-    console.log('blog', blog.user.username);
     if (user && blog.user) {
       return blog.user.username === user.username ? (
         <div>
