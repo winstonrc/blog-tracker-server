@@ -72,32 +72,6 @@ const App = () => {
     }
   };
 
-  const updateBlog = async (blog) => {
-    try {
-      await blogService.update(blog);
-      // setBlogs(blogs.map((b) => (b.id !== blog.id ? b : blog)));
-    } catch (error) {
-      dispatch(setNotification('Unable to update blog', 'red'));
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
-    }
-  };
-
-  const removeBlog = async (blog) => {
-    if (window.confirm(`Remove blog ${blog.title}?`)) {
-      try {
-        await blogService.remove(blog.id);
-        // setBlogs(blogs.filter((b) => b.id !== blog.id));
-      } catch (error) {
-        dispatch(setNotification('Blog already removed', 'red'));
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
-      }
-    }
-  };
-
   const loginForm = () => {
     return (
       <LoginForm
@@ -131,13 +105,7 @@ const App = () => {
           <BlogFormLabel />
           <br></br>
           {blogs.map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              user={user}
-              updateBlog={updateBlog}
-              deleteBlog={removeBlog}
-            />
+            <Blog key={blog.id} blog={blog} user={user} />
           ))}
         </div>
       )}

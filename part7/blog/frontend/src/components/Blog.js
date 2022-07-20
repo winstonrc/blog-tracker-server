@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { likeBlog, deleteBlog } from '../reducers/blogsReducer';
 
-const Blog = ({ blog, user, updateBlog, deleteBlog }) => {
+const Blog = ({ blog, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -9,36 +11,32 @@ const Blog = ({ blog, user, updateBlog, deleteBlog }) => {
     marginBottom: 5,
   };
 
-  const [likes, setLikes] = useState(blog.likes);
   const [showDetails, setShowDetails] = useState(false);
   const [label, setLabel] = useState('expand');
+  const dispatch = useDispatch();
 
   const toggleShowDetails = () => {
     setShowDetails(!showDetails);
     !showDetails ? setLabel('collapse') : setLabel('expand');
   };
 
-  const addLike = (event) => {
+  const onClickLike = async (event) => {
     event.preventDefault();
-    const blogObject = {
-      ...blog,
-      likes: blog.likes + 1,
-    };
-
-    updateBlog(blogObject);
-    setLikes(likes + 1);
+    dispatch(likeBlog(blog));
   };
 
-  const removeBlog = (event) => {
+  const onClickRemove = async (event) => {
     event.preventDefault();
-    deleteBlog(blog);
+    if (window.confirm(`Remove blog ${blog.title}?`)) {
+      dispatch(deleteBlog(blog));
+    }
   };
 
   const showRemoveButton = () => {
     if (user && blog.user) {
       return blog.user.username === user.username ? (
         <div>
-          <button onClick={removeBlog} className='removeBlogButton'>
+          <button onClick={onClickRemove} className='removeBlogButton'>
             remove
           </button>
         </div>
@@ -57,8 +55,8 @@ const Blog = ({ blog, user, updateBlog, deleteBlog }) => {
           <div className='blogAuthor'>{blog.author}</div>
           <div className='blogUrl'>{blog.url}</div>
           <div className='blogLikes'>
-            Likes: {likes} &nbsp;{' '}
-            <button onClick={addLike} className='addLikeButton'>
+            Likes: {blog.likes} &nbsp;{' '}
+            <button onClick={onClickLike} className='addLikeButton'>
               like
             </button>
           </div>
