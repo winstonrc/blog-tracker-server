@@ -1,14 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import Notification from './components/Notification';
 import LoginForm from './components/LoginForm';
-import BlogForm from './components/BlogForm';
-import Togglable from './components/Togglable';
 import blogService from './services/blogs';
 import loginService from './services/login';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNotification } from './reducers/notificationReducer';
 import { initializeBlogs } from './reducers/blogsReducer';
+import BlogFormLabel from './components/BlogFormLabel';
 
 const App = () => {
   const notification = useSelector((state) => state.notification);
@@ -19,7 +18,6 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-  const blogFormRef = useRef();
 
   // fetch blogs from server
   useEffect(() => {
@@ -92,7 +90,7 @@ const App = () => {
         await blogService.remove(blog.id);
         // setBlogs(blogs.filter((b) => b.id !== blog.id));
       } catch (error) {
-        dispatch(setNotification('Unable to remove blog', 'red'));
+        dispatch(setNotification('Blog already removed', 'red'));
         setTimeout(() => {
           setNotification(null);
         }, 5000);
@@ -109,14 +107,6 @@ const App = () => {
         handlePasswordChange={({ target }) => setPassword(target.value)}
         handleSubmit={handleLogin}
       />
-    );
-  };
-
-  const blogForm = () => {
-    return (
-      <Togglable buttonLabel='add blog' ref={blogFormRef}>
-        <BlogForm />
-      </Togglable>
     );
   };
 
@@ -138,7 +128,7 @@ const App = () => {
               </button>
             }
           </p>
-          {blogForm()}
+          <BlogFormLabel />
           <br></br>
           {blogs.map((blog) => (
             <Blog

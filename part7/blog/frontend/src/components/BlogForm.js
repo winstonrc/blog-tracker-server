@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createBlog } from '../reducers/blogsReducer';
 import { setNotification } from '../reducers/notificationReducer';
 
-const BlogForm = () => {
+const BlogForm = ({ onCreateSuccess }) => {
   const dispatch = useDispatch();
 
   const [newTitle, setNewTitle] = useState('');
@@ -50,9 +50,11 @@ const BlogForm = () => {
       })
     );
 
+    dispatch(setNotification(`${newTitle} added to blog list`, 'green'));
     setNewTitle('');
     setNewAuthor('');
     setNewUrl('');
+    onCreateSuccess();
   };
 
   return (
