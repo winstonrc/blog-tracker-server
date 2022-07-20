@@ -1,11 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = null;
-let timeout = null;
-
 const notificationSlice = createSlice({
   name: 'notification',
-  initialState,
+  initialState: null,
   reducers: {
     setMessage(_state, action) {
       return action.payload;
@@ -15,17 +12,23 @@ const notificationSlice = createSlice({
 
 export const { setMessage } = notificationSlice.actions;
 
-export const setNotification = (message, seconds) => {
-  return (dispatch) => {
-    if (!seconds) {
-      seconds = 5;
-    }
+let timeout = null;
 
+export const setNotification = (message, color, seconds) => {
+  return async (dispatch) => {
     if (timeout) {
       clearTimeout(timeout);
     }
 
-    dispatch(setMessage(message));
+    if (color !== 'red' && color !== 'green') {
+      color = 'red';
+    }
+
+    dispatch(setMessage({ message, color }));
+
+    if (!seconds) {
+      seconds = 5;
+    }
 
     timeout = setTimeout(() => {
       dispatch(setMessage(null));

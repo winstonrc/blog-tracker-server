@@ -14,7 +14,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   const [blogs, setBlogs] = useState([]);
-  const [notificationColor, setNotificationColor] = useState(null);
+  // const [notificationColor, setNotificationColor] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -45,14 +45,12 @@ const App = () => {
       setUser(user);
       setUsername('');
       setPassword('');
-      setNotificationColor('green');
-      dispatch(setNotification(`Welcome ${user.name}`));
+      dispatch(setNotification(`Welcome ${user.name}`, 'green'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
     } catch (error) {
-      setNotificationColor('red');
-      dispatch(setNotification('Invalid credentials'));
+      dispatch(setNotification('Invalid credentials', 'red'));
       setPassword('');
       setTimeout(() => {
         setNotification(null);
@@ -68,8 +66,7 @@ const App = () => {
       await blogService.setToken('');
       setUser(null);
     } catch (error) {
-      setNotificationColor('red');
-      dispatch(setNotification('Unable to logout'));
+      dispatch(setNotification('Unable to logout', 'red'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -83,10 +80,10 @@ const App = () => {
     try {
       const response = await blogService.create(blogObject);
       setBlogs(blogs.concat(response));
-      setNotificationColor('green');
       dispatch(
         setNotification(
-          `Added ${blogObject.title} by ${blogObject.author} to the list`
+          `Added ${blogObject.title} by ${blogObject.author} to the list`,
+          'green'
         )
       );
       setTimeout(() => {
@@ -102,8 +99,7 @@ const App = () => {
       await blogService.update(blog);
       setBlogs(blogs.map((b) => (b.id !== blog.id ? b : blog)));
     } catch (error) {
-      setNotificationColor('red');
-      dispatch(setNotification('Unable to update blog'));
+      dispatch(setNotification('Unable to update blog', 'red'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -116,8 +112,7 @@ const App = () => {
         await blogService.remove(blog.id);
         setBlogs(blogs.filter((b) => b.id !== blog.id));
       } catch (error) {
-        setNotificationColor('red');
-        dispatch(setNotification('Unable to remove blog'));
+        dispatch(setNotification('Unable to remove blog', 'red'));
         setTimeout(() => {
           setNotification(null);
         }, 5000);
@@ -127,16 +122,14 @@ const App = () => {
 
   const errorHandler = (blogObject) => {
     if (blogObject.title === '') {
-      setNotificationColor('red');
-      dispatch(setNotification('Error: A title is required'));
+      dispatch(setNotification('Error: A title is required', 'red'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
     }
 
     if (blogObject.url === '') {
-      setNotificationColor('red');
-      dispatch(setNotification('Error: An URL is required'));
+      dispatch(setNotification('Error: An URL is required', 'red'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -166,7 +159,7 @@ const App = () => {
   return (
     <div>
       <h1>Blogs</h1>
-      {notification && <Notification color={notificationColor} />}
+      {notification && <Notification />}
       {user === null ? (
         // if user is logged out
         loginForm()
