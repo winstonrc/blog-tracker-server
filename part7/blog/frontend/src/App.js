@@ -14,7 +14,6 @@ const App = () => {
   const dispatch = useDispatch();
 
   const [blogs, setBlogs] = useState([]);
-  // const [notificationColor, setNotificationColor] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -76,7 +75,7 @@ const App = () => {
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility();
 
-    // Remove button only shows up after refreshing page
+    // FIX: Remove button only shows up after refreshing page
     try {
       const response = await blogService.create(blogObject);
       setBlogs(blogs.concat(response));
