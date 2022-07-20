@@ -1,31 +1,19 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useField } from '../hooks';
 import { createBlog } from '../reducers/blogsReducer';
 import { setNotification } from '../reducers/notificationReducer';
 
 const BlogForm = ({ onCreateSuccess }) => {
   const dispatch = useDispatch();
 
-  const [newTitle, setNewTitle] = useState('');
-  const [newAuthor, setNewAuthor] = useState('');
-  const [newUrl, setNewUrl] = useState('');
-
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value);
-  };
-
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value);
-  };
-
-  const handleUrlChange = (event) => {
-    setNewUrl(event.target.value);
-  };
+  const title = useField('text');
+  const author = useField('text');
+  const url = useField('text');
 
   const addBlog = async (event) => {
     event.preventDefault();
 
-    if (newTitle === '') {
+    if (title.value === '') {
       dispatch(setNotification('Error: A title is required', 'red'));
       setTimeout(() => {
         setNotification(null);
@@ -33,7 +21,7 @@ const BlogForm = ({ onCreateSuccess }) => {
       return null;
     }
 
-    if (newUrl === '') {
+    if (url.value === '') {
       dispatch(setNotification('Error: An URL is required', 'red'));
       setTimeout(() => {
         setNotification(null);
@@ -43,17 +31,17 @@ const BlogForm = ({ onCreateSuccess }) => {
 
     dispatch(
       createBlog({
-        title: newTitle,
-        author: newAuthor,
-        url: newUrl,
+        title: title.value,
+        author: author.value,
+        url: url.value,
         likes: 0,
       })
     );
 
-    dispatch(setNotification(`${newTitle} added to blog list`, 'green'));
-    setNewTitle('');
-    setNewAuthor('');
-    setNewUrl('');
+    dispatch(setNotification(`${title.value} added to blog list`, 'green'));
+    title.reset();
+    author.reset();
+    url.reset();
     onCreateSuccess();
   };
 
@@ -64,29 +52,17 @@ const BlogForm = ({ onCreateSuccess }) => {
       <form onSubmit={addBlog}>
         <div>
           title: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input
-            value={newTitle}
-            onChange={handleTitleChange}
-            className='titleInput'
-          />
+          <input className='titleInput' {...title} reset={null} />
         </div>
 
         <div>
           author: &nbsp;
-          <input
-            value={newAuthor}
-            onChange={handleAuthorChange}
-            className='authorInput'
-          />
+          <input className='authorInput' {...author} reset={null} />
         </div>
 
         <div>
           url: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input
-            value={newUrl}
-            onChange={handleUrlChange}
-            className='urlInput'
-          />
+          <input className='urlInput' {...url} reset={null} />
         </div>
 
         <button type='submit' className='form'>
