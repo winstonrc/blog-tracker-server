@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLabel } from '../hooks/';
 import { useDispatch } from 'react-redux';
 import { likeBlog, deleteBlog } from '../reducers/blogsReducer';
 
@@ -12,12 +13,13 @@ const Blog = ({ blog, user }) => {
   };
 
   const [showDetails, setShowDetails] = useState(false);
-  const [label, setLabel] = useState('expand');
+  // const [label, setLabel] = useState('expand');
+  const label = useLabel('text', 'expand', 'collapse');
   const dispatch = useDispatch();
 
   const toggleShowDetails = () => {
     setShowDetails(!showDetails);
-    !showDetails ? setLabel('collapse') : setLabel('expand');
+    label.toggle();
   };
 
   const onClickLike = async (event) => {
@@ -48,7 +50,7 @@ const Blog = ({ blog, user }) => {
     <div style={blogStyle} className='blog'>
       {blog.title} &nbsp;{' '}
       <button onClick={toggleShowDetails} className='toggleDetailsButton'>
-        {label}
+        {label.value}
       </button>
       {showDetails ? (
         <div>
