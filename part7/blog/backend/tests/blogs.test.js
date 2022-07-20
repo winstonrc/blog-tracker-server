@@ -1,9 +1,8 @@
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const supertest = require("supertest");
-const app = require("../app");
-const helper = require("./test_helper");
-const Blog = require("../models/blog");
+const mongoose = require('mongoose');
+const supertest = require('supertest');
+const app = require('../app');
+const helper = require('./test_helper');
+const Blog = require('../models/blog');
 
 const api = supertest(app);
 
@@ -12,177 +11,177 @@ beforeEach(async () => {
   await Blog.insertMany(helper.initialBlogs);
 });
 
-describe("when there are blogs initially saved", () => {
-  test("blogs are returned as JSON", async () => {
+describe('when there are blogs initially saved', () => {
+  test('blogs are returned as JSON', async () => {
     await api
-      .get("/api/blogs")
+      .get('/api/blogs')
       .expect(200)
-      .expect("Content-Type", /application\/json/);
+      .expect('Content-Type', /application\/json/);
   }, 100000);
 
-  test("should return correct number of blog posts", async () => {
-    const response = await api.get("/api/blogs");
+  test('should return correct number of blog posts', async () => {
+    const response = await api.get('/api/blogs');
     expect(response.body).toHaveLength(helper.initialBlogs.length);
   });
 
   test("the unique identifier is named 'id'", async () => {
-    const response = await api.get("/api/blogs");
+    const response = await api.get('/api/blogs');
     expect(response.body[0].id).toBeDefined();
   });
 });
 
-describe("viewing a specific blog", () => {
-  test("succeeds with status code 200 if id is valid", async () => {
+describe('viewing a specific blog', () => {
+  test('succeeds with status code 200 if id is valid', async () => {
     const blogsAtStart = await helper.blogsInDb();
     const blogToView = blogsAtStart[0];
     const resultBlog = await api
       .get(`/api/blogs/${blogToView.id}`)
       .expect(200)
-      .expect("Content-Type", /application\/json/);
+      .expect('Content-Type', /application\/json/);
 
     const processedBlogToView = JSON.parse(JSON.stringify(blogToView));
     expect(resultBlog.body).toEqual(processedBlogToView);
   });
 
-  test("fails with status code 404 if id is invalid", async () => {
+  test('fails with status code 404 if id is invalid', async () => {
     const invalidId = mongoose.Types.ObjectId();
 
     await api.get(`/api/blogs/${invalidId}`).expect(404);
   });
 
-  test("fails with status code 404 if blog does not exist", async () => {
+  test('fails with status code 404 if blog does not exist', async () => {
     const validNonExistingId = await helper.nonExistingId();
 
     await api.get(`/api/blogs/${validNonExistingId}`).expect(404);
   });
 });
 
-describe("addition of a new blog", () => {
+describe('addition of a new blog', () => {
   let authorization;
 
   beforeEach(async () => {
     const newUser = {
-      username: "newUser",
-      name: "new user",
-      password: "password",
+      username: 'newUser',
+      name: 'new user',
+      password: 'password',
     };
 
-    await api.post("/api/users").send(newUser);
+    await api.post('/api/users').send(newUser);
 
-    const result = await api.post("/api/login").send(newUser);
+    const result = await api.post('/api/login').send(newUser);
 
     authorization = {
       Authorization: `bearer ${result.body.token}`,
     };
   });
 
-  test("succeeds with status code 201 if data is valid", async () => {
+  test('succeeds with status code 201 if data is valid', async () => {
     const newBlog = {
-      title: "self-titled",
-      author: "Myself",
-      url: "www.mywebsite.com",
+      title: 'self-titled',
+      author: 'Myself',
+      url: 'www.mywebsite.com',
     };
 
     await api
-      .post("/api/blogs")
+      .post('/api/blogs')
       .send(newBlog)
       .set(authorization)
       .expect(201)
-      .expect("Content-Type", /application\/json/);
+      .expect('Content-Type', /application\/json/);
 
     const blogsAtEnd = await helper.blogsInDb();
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 
     const contents = blogsAtEnd.map((b) => b.title);
-    expect(contents).toContain("self-titled");
+    expect(contents).toContain('self-titled');
   });
 
-  test("when likes property is missing, the value properly defaults to 0", async () => {
+  test('when likes property is missing, the value properly defaults to 0', async () => {
     const newBlog = {
-      title: "self-titled",
-      author: "Myself",
-      url: "www.mywebsite.com",
+      title: 'self-titled',
+      author: 'Myself',
+      url: 'www.mywebsite.com',
     };
 
     await api
-      .post("/api/blogs")
+      .post('/api/blogs')
       .send(newBlog)
       .set(authorization)
       .expect(201)
-      .expect("Content-Type", /application\/json/);
+      .expect('Content-Type', /application\/json/);
 
     const blogsAtEnd = await helper.blogsInDb();
     const lastBlog = blogsAtEnd[blogsAtEnd.length - 1];
     expect(lastBlog.likes).toBe(0);
   });
 
-  test("fails with status code 400 if data is missing title", async () => {
+  test('fails with status code 400 if data is missing title', async () => {
     const newBlog = {
-      author: "Myself",
-      url: "www.mywebsite.com",
+      author: 'Myself',
+      url: 'www.mywebsite.com',
     };
 
-    await api.post("/api/blogs").send(newBlog).set(authorization).expect(400);
+    await api.post('/api/blogs').send(newBlog).set(authorization).expect(400);
 
     const blogsAtEnd = await helper.blogsInDb();
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
   });
 
-  test("fails with status code 400 if data is missing url", async () => {
+  test('fails with status code 400 if data is missing url', async () => {
     const newBlog = {
-      title: "self-titled",
+      title: 'self-titled',
     };
 
-    await api.post("/api/blogs").send(newBlog).set(authorization).expect(400);
+    await api.post('/api/blogs').send(newBlog).set(authorization).expect(400);
 
     const blogsAtEnd = await helper.blogsInDb();
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
   });
 
-  test("fails with status code 401 if a token is not provided", async () => {
+  test('fails with status code 401 if a token is not provided', async () => {
     const newBlog = {
-      title: "self-titled",
-      author: "Myself",
-      url: "www.mywebsite.com",
+      title: 'self-titled',
+      author: 'Myself',
+      url: 'www.mywebsite.com',
     };
 
     await api
-      .post("/api/blogs")
+      .post('/api/blogs')
       .send(newBlog)
       .expect(401)
-      .expect("Content-Type", /application\/json/);
+      .expect('Content-Type', /application\/json/);
   });
 });
 
-describe("deletion of a blog", () => {
+describe('deletion of a blog', () => {
   let authorization;
 
   beforeEach(async () => {
     const newUser = {
-      username: "newUser",
-      name: "new user",
-      password: "password",
+      username: 'newUser',
+      name: 'new user',
+      password: 'password',
     };
 
-    await api.post("/api/users").send(newUser);
+    await api.post('/api/users').send(newUser);
 
-    const result = await api.post("/api/login").send(newUser);
+    const result = await api.post('/api/login').send(newUser);
 
     authorization = {
       Authorization: `bearer ${result.body.token}`,
     };
   });
 
-  test("succeeds with status code 204 if id is valid", async () => {
+  test('succeeds with status code 204 if id is valid', async () => {
     const blogsAtStart = await helper.blogsInDb();
 
     const newBlog = {
-      title: "self-titled",
-      author: "Myself",
-      url: "www.mywebsite.com",
+      title: 'self-titled',
+      author: 'Myself',
+      url: 'www.mywebsite.com',
     };
 
-    await api.post("/api/blogs").send(newBlog).set(authorization).expect(201);
+    await api.post('/api/blogs').send(newBlog).set(authorization).expect(201);
 
     const currentBlogs = await helper.blogsInDb();
     expect(currentBlogs).toHaveLength(blogsAtStart.length + 1);
@@ -202,16 +201,16 @@ describe("deletion of a blog", () => {
     expect(contents).not.toContain(blogToDelete.title);
   });
 
-  test("fails with status code 401 if a token is not provided", async () => {
+  test('fails with status code 401 if a token is not provided', async () => {
     const blogsAtStart = await helper.blogsInDb();
 
     const newBlog = {
-      title: "self-titled",
-      author: "Myself",
-      url: "www.mywebsite.com",
+      title: 'self-titled',
+      author: 'Myself',
+      url: 'www.mywebsite.com',
     };
 
-    await api.post("/api/blogs").send(newBlog).set(authorization).expect(201);
+    await api.post('/api/blogs').send(newBlog).set(authorization).expect(201);
 
     const currentBlogs = await helper.blogsInDb();
     expect(currentBlogs).toHaveLength(blogsAtStart.length + 1);
@@ -223,8 +222,8 @@ describe("deletion of a blog", () => {
   });
 });
 
-describe("updating a blog", () => {
-  test("blog likes can be updated", async () => {
+describe('updating a blog', () => {
+  test('blog likes can be updated', async () => {
     const blogsAtStart = await helper.blogsInDb();
     const blogToUpdate = blogsAtStart[0];
     const updatedLikes = blogToUpdate.likes + 1;
