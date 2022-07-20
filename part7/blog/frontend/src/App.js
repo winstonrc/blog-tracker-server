@@ -14,7 +14,6 @@ const App = () => {
   const blogs = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
-  // const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
