@@ -1,6 +1,11 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createBlog } from '../reducers/blogsReducer';
+import { setNotification } from '../reducers/notificationReducer';
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = () => {
+  const dispatch = useDispatch();
+
   const [newTitle, setNewTitle] = useState('');
   const [newAuthor, setNewAuthor] = useState('');
   const [newUrl, setNewUrl] = useState('');
@@ -19,12 +24,31 @@ const BlogForm = ({ createBlog }) => {
 
   const addBlog = (event) => {
     event.preventDefault();
-    createBlog({
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-      likes: 0,
-    });
+
+    if (newTitle === '') {
+      dispatch(setNotification('Error: A title is required', 'red'));
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
+      return null;
+    }
+
+    if (newUrl === '') {
+      dispatch(setNotification('Error: An URL is required', 'red'));
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
+      return null;
+    }
+
+    dispatch(
+      createBlog({
+        title: newTitle,
+        author: newAuthor,
+        url: newUrl,
+        likes: 0,
+      })
+    );
 
     setNewTitle('');
     setNewAuthor('');

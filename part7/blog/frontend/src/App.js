@@ -8,12 +8,14 @@ import blogService from './services/blogs';
 import loginService from './services/login';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNotification } from './reducers/notificationReducer';
+import { initializeBlogs } from './reducers/blogsReducer';
 
 const App = () => {
   const notification = useSelector((state) => state.notification);
+  const blogs = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -21,8 +23,8 @@ const App = () => {
 
   // fetch blogs from server
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    dispatch(initializeBlogs());
+  }, [dispatch]);
 
   // check for logged in user when page loads
   useEffect(() => {
@@ -72,31 +74,10 @@ const App = () => {
     }
   };
 
-  const addBlog = async (blogObject) => {
-    blogFormRef.current.toggleVisibility();
-
-    // FIX: Remove button only shows up after refreshing page
-    try {
-      const response = await blogService.create(blogObject);
-      setBlogs(blogs.concat(response));
-      dispatch(
-        setNotification(
-          `Added ${blogObject.title} by ${blogObject.author} to the list`,
-          'green'
-        )
-      );
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
-    } catch (error) {
-      errorHandler(blogObject);
-    }
-  };
-
   const updateBlog = async (blog) => {
     try {
       await blogService.update(blog);
-      setBlogs(blogs.map((b) => (b.id !== blog.id ? b : blog)));
+      // setBlogs(blogs.map((b) => (b.id !== blog.id ? b : blog)));
     } catch (error) {
       dispatch(setNotification('Unable to update blog', 'red'));
       setTimeout(() => {
@@ -109,29 +90,13 @@ const App = () => {
     if (window.confirm(`Remove blog ${blog.title}?`)) {
       try {
         await blogService.remove(blog.id);
-        setBlogs(blogs.filter((b) => b.id !== blog.id));
+        // setBlogs(blogs.filter((b) => b.id !== blog.id));
       } catch (error) {
         dispatch(setNotification('Unable to remove blog', 'red'));
         setTimeout(() => {
           setNotification(null);
         }, 5000);
       }
-    }
-  };
-
-  const errorHandler = (blogObject) => {
-    if (blogObject.title === '') {
-      dispatch(setNotification('Error: A title is required', 'red'));
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
-    }
-
-    if (blogObject.url === '') {
-      dispatch(setNotification('Error: An URL is required', 'red'));
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
     }
   };
 
@@ -150,7 +115,7 @@ const App = () => {
   const blogForm = () => {
     return (
       <Togglable buttonLabel='add blog' ref={blogFormRef}>
-        <BlogForm createBlog={addBlog} />
+        <BlogForm />
       </Togglable>
     );
   };
@@ -175,17 +140,15 @@ const App = () => {
           </p>
           {blogForm()}
           <br></br>
-          {blogs
-            .sort((a, b) => b.likes - a.likes)
-            .map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                user={user}
-                updateBlog={updateBlog}
-                deleteBlog={removeBlog}
-              />
-            ))}
+          {blogs.map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              user={user}
+              updateBlog={updateBlog}
+              deleteBlog={removeBlog}
+            />
+          ))}
         </div>
       )}
     </div>
