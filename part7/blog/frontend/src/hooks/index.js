@@ -31,3 +31,21 @@ export const useLabel = (type, defaultValue, toggledValue) => {
     toggle,
   };
 };
+
+export const useBoolean = (type) => {
+  const [value, setValue] = useState(false);
+
+  const toggle = () => {
+    if (value === false) {
+      setValue(true);
+    } else {
+      setValue(false);
+    }
+  };
+
+  return {
+    type,
+    value,
+    toggle,
+  };
+};

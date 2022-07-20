@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useLabel } from '../hooks/';
+import { useLabel, useBoolean } from '../hooks/';
 import { useDispatch } from 'react-redux';
 import { likeBlog, deleteBlog } from '../reducers/blogsReducer';
 
@@ -12,13 +11,12 @@ const Blog = ({ blog, user }) => {
     marginBottom: 5,
   };
 
-  const [showDetails, setShowDetails] = useState(false);
-  // const [label, setLabel] = useState('expand');
+  const showDetails = useBoolean('boolean');
   const label = useLabel('text', 'expand', 'collapse');
   const dispatch = useDispatch();
 
   const toggleShowDetails = () => {
-    setShowDetails(!showDetails);
+    showDetails.toggle();
     label.toggle();
   };
 
@@ -52,7 +50,7 @@ const Blog = ({ blog, user }) => {
       <button onClick={toggleShowDetails} className='toggleDetailsButton'>
         {label.value}
       </button>
-      {showDetails ? (
+      {showDetails.value ? (
         <div>
           <div className='blogAuthor'>{blog.author}</div>
           <div className='blogUrl'>{blog.url}</div>
