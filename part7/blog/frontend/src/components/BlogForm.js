@@ -22,7 +22,7 @@ const BlogForm = ({ onCreateSuccess }) => {
     setNewUrl(event.target.value);
   };
 
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault();
 
     if (newTitle === '') {
