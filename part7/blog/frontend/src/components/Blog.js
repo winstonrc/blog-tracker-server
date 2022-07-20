@@ -42,9 +42,7 @@ const Blog = ({ blog, user, updateBlog, deleteBlog }) => {
             remove
           </button>
         </div>
-      ) : (
-        ''
-      );
+      ) : null;
     }
   };
 

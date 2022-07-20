@@ -6,11 +6,15 @@ import BlogForm from './components/BlogForm';
 import Togglable from './components/Togglable';
 import blogService from './services/blogs';
 import loginService from './services/login';
+import { useSelector, useDispatch } from 'react-redux';
+import { setNotification } from './reducers/notificationReducer';
 
 const App = () => {
+  const notification = useSelector((state) => state.notification);
+  const dispatch = useDispatch();
+
   const [blogs, setBlogs] = useState([]);
   const [notificationColor, setNotificationColor] = useState(null);
-  const [notification, setNotification] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
@@ -42,13 +46,13 @@ const App = () => {
       setUsername('');
       setPassword('');
       setNotificationColor('green');
-      setNotification(`Welcome ${user.name}`);
+      dispatch(setNotification(`Welcome ${user.name}`));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
     } catch (error) {
       setNotificationColor('red');
-      setNotification('Invalid credentials');
+      dispatch(setNotification('Invalid credentials'));
       setPassword('');
       setTimeout(() => {
         setNotification(null);
@@ -65,7 +69,7 @@ const App = () => {
       setUser(null);
     } catch (error) {
       setNotificationColor('red');
-      setNotification('Unable to logout');
+      dispatch(setNotification('Unable to logout'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -79,18 +83,17 @@ const App = () => {
     try {
       const response = await blogService.create(blogObject);
       setBlogs(blogs.concat(response));
-      console.log('response.user', response.user.username);
-      console.log('user', user);
       setNotificationColor('green');
-      setNotification(
-        `Added ${blogObject.title} by ${blogObject.author} to the list`
+      dispatch(
+        setNotification(
+          `Added ${blogObject.title} by ${blogObject.author} to the list`
+        )
       );
       setTimeout(() => {
         setNotification(null);
       }, 5000);
     } catch (error) {
       errorHandler(blogObject);
-      console.log(error.message);
     }
   };
 
@@ -100,7 +103,7 @@ const App = () => {
       setBlogs(blogs.map((b) => (b.id !== blog.id ? b : blog)));
     } catch (error) {
       setNotificationColor('red');
-      setNotification('Unable to remove blog');
+      dispatch(setNotification('Unable to update blog'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -108,14 +111,13 @@ const App = () => {
   };
 
   const removeBlog = async (blog) => {
-    console.log(blog);
     if (window.confirm(`Remove blog ${blog.title}?`)) {
       try {
         await blogService.remove(blog.id);
         setBlogs(blogs.filter((b) => b.id !== blog.id));
       } catch (error) {
         setNotificationColor('red');
-        setNotification('Unable to remove blog');
+        dispatch(setNotification('Unable to remove blog'));
         setTimeout(() => {
           setNotification(null);
         }, 5000);
@@ -126,7 +128,7 @@ const App = () => {
   const errorHandler = (blogObject) => {
     if (blogObject.title === '') {
       setNotificationColor('red');
-      setNotification('Error: A title is required');
+      dispatch(setNotification('Error: A title is required'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -134,7 +136,7 @@ const App = () => {
 
     if (blogObject.url === '') {
       setNotificationColor('red');
-      setNotification('Error: An URL is required');
+      dispatch(setNotification('Error: An URL is required'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -164,7 +166,7 @@ const App = () => {
   return (
     <div>
       <h1>Blogs</h1>
-      <Notification message={notification} color={notificationColor} />
+      {notification && <Notification color={notificationColor} />}
       {user === null ? (
         // if user is logged out
         loginForm()
