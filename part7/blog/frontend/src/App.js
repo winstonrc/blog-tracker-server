@@ -23,11 +23,6 @@ const App = () => {
     dispatch(getBlogs());
   }, [dispatch]);
 
-  // if user is logged out
-  // if (user === null) {
-  //   return <LoginForm />;
-  // }
-
   return (
     <div>
       <h1>Blogs</h1>
