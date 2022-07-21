@@ -13,7 +13,7 @@ const BlogForm = ({ onCreateSuccess }) => {
   const addBlog = async (event) => {
     event.preventDefault();
 
-    if (title.value === '') {
+    if (title.props.value === '') {
       dispatch(setNotification('Error: A title is required', 'red'));
       setTimeout(() => {
         setNotification(null);
@@ -21,7 +21,7 @@ const BlogForm = ({ onCreateSuccess }) => {
       return null;
     }
 
-    if (url.value === '') {
+    if (url.props.value === '') {
       dispatch(setNotification('Error: An URL is required', 'red'));
       setTimeout(() => {
         setNotification(null);
@@ -31,14 +31,16 @@ const BlogForm = ({ onCreateSuccess }) => {
 
     dispatch(
       createBlog({
-        title: title.value,
-        author: author.value,
-        url: url.value,
+        title: title.props.value,
+        author: author.props.value,
+        url: url.props.value,
         likes: 0,
       })
     );
 
-    dispatch(setNotification(`${title.value} added to blog list`, 'green'));
+    dispatch(
+      setNotification(`${title.props.value} added to blog list`, 'green')
+    );
     title.reset();
     author.reset();
     url.reset();
@@ -52,17 +54,17 @@ const BlogForm = ({ onCreateSuccess }) => {
       <form onSubmit={addBlog}>
         <div>
           title: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input className='titleInput' {...title} reset={null} />
+          <input className='titleInput' {...title.props} />
         </div>
 
         <div>
           author: &nbsp;
-          <input className='authorInput' {...author} reset={null} />
+          <input className='authorInput' {...author.props} />
         </div>
 
         <div>
           url: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input className='urlInput' {...url} reset={null} />
+          <input className='urlInput' {...url.props} />
         </div>
 
         <button type='submit' className='form'>

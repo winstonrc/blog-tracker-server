@@ -38,7 +38,7 @@ const blogsSlice = createSlice({
 
 export const { setBlogs, appendBlog, like, remove } = blogsSlice.actions;
 
-export const initializeBlogs = () => {
+export const getBlogs = () => {
   return async (dispatch) => {
     const blogs = await blogService.getAll();
     dispatch(setBlogs(blogs));
@@ -72,7 +72,7 @@ export const likeBlog = (blog) => {
   };
 };
 
-export const deleteBlog = (blog) => {
+export const removeBlog = (blog) => {
   return async (dispatch) => {
     try {
       await blogService.remove(blog);

@@ -1,6 +1,6 @@
 import { useLabel, useBoolean } from '../hooks/';
 import { useDispatch } from 'react-redux';
-import { likeBlog, deleteBlog } from '../reducers/blogsReducer';
+import { likeBlog, removeBlog } from '../reducers/blogsReducer';
 
 const Blog = ({ blog, user }) => {
   const blogStyle = {
@@ -25,22 +25,9 @@ const Blog = ({ blog, user }) => {
     dispatch(likeBlog(blog));
   };
 
-  const onClickRemove = async (event) => {
-    event.preventDefault();
-    if (window.confirm(`Remove blog ${blog.title}?`)) {
-      dispatch(deleteBlog(blog));
-    }
-  };
-
-  const showRemoveButton = () => {
-    if (user && blog.user) {
-      return blog.user.username === user.username ? (
-        <div>
-          <button onClick={onClickRemove} className='removeBlogButton'>
-            remove
-          </button>
-        </div>
-      ) : null;
+  const onClickRemove = async (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      dispatch(removeBlog(blog));
     }
   };
 
@@ -60,7 +47,14 @@ const Blog = ({ blog, user }) => {
               like
             </button>
           </div>
-          {showRemoveButton()}
+          {blog.user.username === user.username ? (
+            <button
+              onClick={() => onClickRemove(blog)}
+              className='removeBlogButton'
+            >
+              remove
+            </button>
+          ) : null}
         </div>
       ) : (
         ''
