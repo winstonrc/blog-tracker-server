@@ -5,10 +5,9 @@ import { getUserFromLocal, logout } from './reducers/userReducer';
 import Notification from './components/Notification';
 import Menu from './components/Menu';
 import LoginForm from './components/LoginForm';
-import BlogFormLabel from './components/BlogFormLabel';
 import BlogList from './components/BlogList';
 import Users from './components/Users';
-import User from './components/Users';
+import User from './components/User';
 
 const path = {
   home: '/',
@@ -55,11 +54,6 @@ const App = () => {
               </button>
             }
           </p>
-
-          <BlogFormLabel />
-
-          <br></br>
-
           <Routes>
             <Route path={path.home} element={<BlogList />} />
             <Route path={path.users} element={<Users />} />
