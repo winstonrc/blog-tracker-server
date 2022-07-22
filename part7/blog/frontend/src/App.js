@@ -6,6 +6,7 @@ import Notification from './components/Notification';
 import Menu from './components/Menu';
 import LoginForm from './components/LoginForm';
 import BlogList from './components/BlogList';
+import BlogDetail from './components/BlogDetail';
 import Users from './components/Users';
 import User from './components/User';
 
@@ -56,6 +57,7 @@ const App = () => {
           </p>
           <Routes>
             <Route path={path.home} element={<BlogList />} />
+            <Route path={path.blog} element={<BlogDetail />} />
             <Route path={path.users} element={<Users />} />
             <Route path={path.user} element={<User />} />
           </Routes>

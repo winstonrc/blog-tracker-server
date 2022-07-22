@@ -8,7 +8,7 @@ const Menu = ({ homePath, usersPath }) => {
   return (
     <div>
       <Link style={padding} to={homePath}>
-        home
+        blogs
       </Link>
       <Link style={padding} to={usersPath}>
         users

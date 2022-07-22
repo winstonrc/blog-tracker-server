@@ -18,7 +18,7 @@ const blogsSlice = createSlice({
     like(state, action) {
       const likedBlog = action.payload;
 
-      const list = state
+      const list = current(state)
         .map((blog) => (blog.id === likedBlog.id ? likedBlog : blog))
         .sort(sortByLikes);
 

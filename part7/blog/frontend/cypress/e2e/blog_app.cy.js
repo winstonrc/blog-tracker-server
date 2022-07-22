@@ -106,9 +106,9 @@ describe('Blog app', function () {
     });
 
     it.only('they are sorted by most to least number of likes', function () {
-      cy.get('.blog').eq(0).should('contain', 'cypress-test-blog-3');
-      cy.get('.blog').eq(1).should('contain', 'cypress-test-blog-2');
-      cy.get('.blog').eq(2).should('contain', 'cypress-test-blog-1');
+      cy.get('.blog-detail').eq(0).should('contain', 'cypress-test-blog-3');
+      cy.get('.blog-detail').eq(1).should('contain', 'cypress-test-blog-2');
+      cy.get('.blog-detail').eq(2).should('contain', 'cypress-test-blog-1');
     });
   });
 });

@@ -9,8 +9,8 @@ const User = () => {
 
   useEffect(() => {
     if (id) {
-      usersService.getById(id).then((data) => {
-        setUser(data);
+      usersService.getById(id).then((response) => {
+        setUser(response);
       });
     }
   }, [id]);
