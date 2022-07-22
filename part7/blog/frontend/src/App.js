@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { getUserFromLocal, logout } from './reducers/userReducer';
 import Notification from './components/Notification';
 import Menu from './components/Menu';
 import LoginForm from './components/LoginForm';
 import BlogFormLabel from './components/BlogFormLabel';
 import BlogList from './components/BlogList';
 import Users from './components/Users';
-import { getUserFromLocal, logout } from './reducers/userReducer';
+import User from './components/Users';
 
 const path = {
   home: '/',
@@ -18,13 +19,20 @@ const path = {
 
 const App = () => {
   const notification = useSelector((state) => state.notification);
-  const user = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // check for logged in user when page loads
   useEffect(() => {
     dispatch(getUserFromLocal());
   }, [dispatch]);
+
+  const handleLogout = (event) => {
+    event.preventDefault();
+    navigate('/');
+    dispatch(logout());
+  };
 
   return (
     <div>
@@ -32,7 +40,7 @@ const App = () => {
 
       {notification && <Notification />}
 
-      {user === null ? (
+      {currentUser === null ? (
         // if user is logged out
         <LoginForm />
       ) : (
@@ -40,12 +48,9 @@ const App = () => {
         <div>
           <Menu homePath={path.home} usersPath={path.users} />
           <p>
-            Logged in as {user.name}{' '}
+            Logged in as {currentUser.name}{' '}
             {
-              <button
-                className='logoutButton'
-                onClick={() => dispatch(logout())}
-              >
+              <button className='logoutButton' onClick={handleLogout}>
                 logout
               </button>
             }
@@ -56,8 +61,9 @@ const App = () => {
           <br></br>
 
           <Routes>
-            <Route path={path.users} element={<Users />} />
             <Route path={path.home} element={<BlogList />} />
+            <Route path={path.users} element={<Users />} />
+            <Route path={path.user} element={<User />} />
           </Routes>
         </div>
       )}
