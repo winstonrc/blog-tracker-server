@@ -1,7 +1,7 @@
-/* eslint-disable indent */
 import { useDispatch, useSelector } from 'react-redux';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { likeBlog, removeBlog } from '../reducers/blogsReducer';
+import Comments from './Comments';
 
 const Blog = () => {
   const dispatch = useDispatch();
@@ -32,7 +32,9 @@ const Blog = () => {
       <h2>{blog.title}</h2>
       <div>
         <div className='blogAuthor'>{blog.author}</div>
-        <div className='blogUrl'>{blog.url}</div>
+        <a href={blog.url} className='blogUrl'>
+          {blog.url}
+        </a>
         <div className='blogLikes'>
           Likes: {blog.likes} &nbsp;{' '}
           <button onClick={() => onClickLike(blog)} className='addLikeButton'>
@@ -48,16 +50,7 @@ const Blog = () => {
           </button>
         ) : null}
       </div>
-      <div>
-        <h3>Comments</h3>
-        <ul>
-          {blog.comments !== null
-            ? blog.comments.map((comment) => {
-                <li>{comment}</li>;
-              })
-            : null}
-        </ul>
-      </div>
+      <Comments blog={blog} />
     </div>
   );
 };
