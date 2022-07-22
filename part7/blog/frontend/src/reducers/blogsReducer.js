@@ -52,6 +52,7 @@ export const createBlog = (blog) => {
       dispatch(appendBlog(newBlog));
     } catch (error) {
       console.log('create blog error', error);
+      setNotification('Unable to add blog', 'red');
     }
   };
 };

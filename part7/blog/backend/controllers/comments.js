@@ -25,7 +25,7 @@ commentsRouter.post('/', async (request, response) => {
 
   const comment = new Comment({
     text,
-    date: new Date(),
+    date: Date(),
     blog: blog._id,
   });
 
