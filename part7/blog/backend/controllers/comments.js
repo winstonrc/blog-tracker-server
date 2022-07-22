@@ -4,7 +4,8 @@ const Comment = require('../models/comment');
 const Blog = require('../models/blog');
 
 commentsRouter.get('/', async (request, response) => {
-  const comments = await Comment.find({});
+  const blogId = request.args.id;
+  const comments = await Comment.find({ blog: blogId }).sort({ date: -1 });
   response.json(comments);
 });
 
