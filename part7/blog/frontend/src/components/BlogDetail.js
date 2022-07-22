@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { useDispatch, useSelector } from 'react-redux';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { likeBlog, removeBlog } from '../reducers/blogsReducer';
@@ -46,6 +47,16 @@ const Blog = () => {
             remove
           </button>
         ) : null}
+      </div>
+      <div>
+        <h3>Comments</h3>
+        <ul>
+          {blog.comments !== null
+            ? blog.comments.map((comment) => {
+                <li>{comment}</li>;
+              })
+            : null}
+        </ul>
       </div>
     </div>
   );
