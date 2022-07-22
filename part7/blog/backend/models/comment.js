@@ -4,11 +4,11 @@ const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
   text: String,
+  date: Date,
   blog: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Blog',
   },
-  date: Date,
 });
 
 commentSchema.set('toJSON', {
