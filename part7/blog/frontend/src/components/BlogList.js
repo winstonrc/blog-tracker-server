@@ -1,9 +1,17 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getBlogs } from '../reducers/blogsReducer';
 import Blog from './Blog';
 
 const BlogList = () => {
   const blogs = useSelector((state) => state.blogs);
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  // fetch blogs from server
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, [dispatch]);
 
   return (
     <div>

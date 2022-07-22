@@ -1,26 +1,29 @@
 import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
 import Notification from './components/Notification';
+import Menu from './components/Menu';
 import LoginForm from './components/LoginForm';
 import BlogFormLabel from './components/BlogFormLabel';
-import Blog from './components/Blog';
-import { useSelector, useDispatch } from 'react-redux';
-import { getBlogs } from './reducers/blogsReducer';
+import BlogList from './components/BlogList';
+import Users from './components/Users';
 import { getUserFromLocal, logout } from './reducers/userReducer';
+
+const path = {
+  home: '/',
+  users: '/users',
+  user: '/users/:id',
+  blog: '/blogs/:id',
+};
 
 const App = () => {
   const notification = useSelector((state) => state.notification);
   const user = useSelector((state) => state.user);
-  const blogs = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
   // check for logged in user when page loads
   useEffect(() => {
     dispatch(getUserFromLocal());
-  }, [dispatch]);
-
-  // fetch blogs from server
-  useEffect(() => {
-    dispatch(getBlogs());
   }, [dispatch]);
 
   return (
@@ -35,6 +38,7 @@ const App = () => {
       ) : (
         // if user is logged in
         <div>
+          <Menu homePath={path.home} usersPath={path.users} />
           <p>
             Logged in as {user.name}{' '}
             {
@@ -51,9 +55,10 @@ const App = () => {
 
           <br></br>
 
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} user={user} />
-          ))}
+          <Routes>
+            <Route path={path.users} element={<Users />} />
+            <Route path={path.home} element={<BlogList />} />
+          </Routes>
         </div>
       )}
     </div>
