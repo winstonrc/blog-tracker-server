@@ -29,9 +29,10 @@ const Blog = () => {
 
   return (
     <div className='blog-detail'>
-      <h2>{blog.title}</h2>
+      <h2>
+        {blog.title} - {blog.author}
+      </h2>
       <div>
-        <div className='blogAuthor'>{blog.author}</div>
         <a href={blog.url} className='blogUrl'>
           {blog.url}
         </a>
@@ -41,6 +42,7 @@ const Blog = () => {
             like
           </button>
         </div>
+        <div>Added by {blog.user.username}</div>
         {blog.user.username === user.username ? (
           <button
             onClick={() => onClickRemove(blog)}
