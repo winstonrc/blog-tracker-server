@@ -17,10 +17,12 @@ const Comments = ({ blogId }) => {
   }, [blogId]);
 
   const onClickAddComment = () => {
-    const text = { text: comment.props.value };
-    commentsService.create(blogId, text);
-    comment.reset();
-    // dispatch(createComment(blogId, text));
+    const text = comment.props.value;
+    if (text) {
+      commentsService.create(blogId, text);
+      comment.reset();
+      // dispatch(createComment(blogId, text));
+    }
   };
 
   return (
@@ -37,11 +39,9 @@ const Comments = ({ blogId }) => {
         </button>
       </form>
       <ul>
-        {comments !== null
-          ? comments.map((c) => {
-              <li key={c.id}>{c.text}</li>;
-            })
-          : null}
+        {comments.map((c) => (
+          <li key={c.id}>{c.text}</li>
+        ))}
       </ul>
     </div>
   );

@@ -7,7 +7,7 @@ const getAll = (id) => {
 };
 
 const create = async (id, text) => {
-  const response = await axios.post(baseUrl(id), text);
+  const response = await axios.post(baseUrl(id), { text: text });
   return response.data;
 };
 
