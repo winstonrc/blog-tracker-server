@@ -36,9 +36,12 @@ const Comments = ({ blogId }) => {
         </button>
       </form>
       <ul>
-        {comments.map((c) => (
-          <li key={c.id}>{c.text}</li>
-        ))}
+        {comments
+          .slice()
+          .reverse()
+          .map((c) => (
+            <li key={c.id}>{c.text}</li>
+          ))}
       </ul>
     </div>
   );
