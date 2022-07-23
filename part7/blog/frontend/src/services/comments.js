@@ -1,13 +1,13 @@
 import axios from 'axios';
-const baseUrl = (blog) => `/api/blogs/${blog.id}/comments`;
+const baseUrl = (id) => `/api/blogs/${id}/comments`;
 
-const getAll = (blog) => {
-  const request = axios.get(baseUrl(blog));
+const getAll = (id) => {
+  const request = axios.get(baseUrl(id));
   return request.then((response) => response.data);
 };
 
-const create = async (blog, text) => {
-  const response = await axios.post(baseUrl(blog), { text: text });
+const create = async (id, text) => {
+  const response = await axios.post(baseUrl(id), text);
   return response.data;
 };
 

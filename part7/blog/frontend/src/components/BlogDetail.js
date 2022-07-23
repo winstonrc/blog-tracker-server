@@ -52,7 +52,7 @@ const Blog = () => {
           </button>
         ) : null}
       </div>
-      <Comments blog={blog} />
+      <Comments blogId={blog.id} />
     </div>
   );
 };

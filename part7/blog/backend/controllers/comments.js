@@ -35,3 +35,5 @@ commentsRouter.post('/', async (request, response) => {
 
   return response.status(201).json(savedComment);
 });
+
+module.exports = commentsRouter;

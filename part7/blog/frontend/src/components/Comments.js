@@ -1,24 +1,26 @@
 /* eslint-disable indent */
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useField } from '../hooks';
-import { createComment } from '../reducers/commentsReducer';
+// import { createComment } from '../reducers/commentsReducer';
 import commentsService from '../services/comments';
 
-const Comments = ({ blog }) => {
-  const dispatch = useDispatch();
+const Comments = ({ blogId }) => {
+  // const dispatch = useDispatch();
   const comment = useField('text');
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    commentsService.getAll(blog).then((reponse) => {
-      setComments(reponse);
+    commentsService.getAll(blogId).then((response) => {
+      setComments(response);
     });
-  }, [blog]);
+  }, [blogId]);
 
   const onClickAddComment = () => {
-    const text = comment.props.value;
-    dispatch(createComment(blog, text));
+    const text = { text: comment.props.value };
+    commentsService.create(blogId, text);
+    comment.reset();
+    // dispatch(createComment(blogId, text));
   };
 
   return (
