@@ -32,11 +32,12 @@ export const login = (usernameObject, passwordObject) => {
       const username = usernameObject.props.value;
       const password = passwordObject.props.value;
       const user = await loginService.login({ username, password });
-      dispatch(setUser(user));
+      dispatch(setUser(user)) &&
+        dispatch(setNotification(`Welcome ${user.name}`, 'success'));
     } catch (error) {
       console.log('login failed', error);
       passwordObject.reset();
-      dispatch(setNotification('Invalid credentials', 'red'));
+      dispatch(setNotification('Invalid credentials', 'error'));
     }
   };
 };

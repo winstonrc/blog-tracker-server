@@ -14,17 +14,13 @@ export const { setMessage } = notificationSlice.actions;
 
 let timeout = null;
 
-export const setNotification = (message, color, seconds) => {
+export const setNotification = (message, severity, seconds) => {
   return async (dispatch) => {
     if (timeout) {
       clearTimeout(timeout);
     }
 
-    if (color !== 'red' && color !== 'green') {
-      color = 'red';
-    }
-
-    dispatch(setMessage({ message, color }));
+    dispatch(setMessage({ message, severity }));
 
     if (!seconds) {
       seconds = 5;

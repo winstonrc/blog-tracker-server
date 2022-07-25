@@ -28,10 +28,11 @@ export const createComment = (blogId, text) => {
   return async (dispatch) => {
     try {
       const newComment = await commentsService.create(blogId, text);
-      dispatch(appendComment(newComment));
+      dispatch(appendComment(newComment)) &&
+        dispatch(setNotification('Comment added', 'success'));
     } catch (error) {
       console.log('create comment error', error);
-      setNotification('Unable to create comment', 'red');
+      dispatch(setNotification('Unable to create comment', 'error'));
     }
   };
 };

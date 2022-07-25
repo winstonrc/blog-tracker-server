@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle } from 'react';
+import { Button } from '@mui/material';
 import { useBoolean } from '../hooks';
 import PropTypes from 'prop-types';
 
@@ -21,13 +22,27 @@ const Togglable = forwardRef((props, refs) => {
   return (
     <div>
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility} className='addBlogButton'>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={toggleVisibility}
+          className="addBlogButton"
+        >
           {props.buttonLabel}
-        </button>
+        </Button>
       </div>
-      <div style={showWhenVisible} className='togglableContent'>
+      <div style={showWhenVisible} className="togglableContent">
         {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
+        <br></br>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={toggleVisibility}
+        >
+          cancel
+        </Button>
       </div>
     </div>
   );

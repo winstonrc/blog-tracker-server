@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useField } from '../hooks';
 import { createBlog } from '../reducers/blogsReducer';
 import { setNotification } from '../reducers/notificationReducer';
+import { TextField, Button } from '@mui/material';
 
 const BlogForm = ({ onCreateSuccess }) => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const BlogForm = ({ onCreateSuccess }) => {
     event.preventDefault();
 
     if (title.props.value === '') {
-      dispatch(setNotification('Error: A title is required', 'red'));
+      dispatch(setNotification('Error: A title is required', 'error'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -22,7 +23,7 @@ const BlogForm = ({ onCreateSuccess }) => {
     }
 
     if (url.props.value === '') {
-      dispatch(setNotification('Error: An URL is required', 'red'));
+      dispatch(setNotification('Error: An URL is required', 'error'));
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -39,7 +40,7 @@ const BlogForm = ({ onCreateSuccess }) => {
     );
 
     dispatch(
-      setNotification(`${title.props.value} added to blog list`, 'green')
+      setNotification(`${title.props.value} added to blog list`, 'success')
     );
     title.reset();
     author.reset();
@@ -53,23 +54,25 @@ const BlogForm = ({ onCreateSuccess }) => {
 
       <form onSubmit={addBlog}>
         <div>
-          title: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input className='titleInput' {...title.props} />
+          <TextField label="Title" {...title.props} />
         </div>
-
+        <br></br>
         <div>
-          author: &nbsp;
-          <input className='authorInput' {...author.props} />
+          <TextField label="Author" {...author.props} />
         </div>
-
+        <br></br>
         <div>
-          url: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input className='urlInput' {...url.props} />
+          <TextField label="URL" {...url.props} />
         </div>
-
-        <button type='submit' className='form'>
+        <br></br>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          className="form"
+        >
           add
-        </button>
+        </Button>
       </form>
     </div>
   );

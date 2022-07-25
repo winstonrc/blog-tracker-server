@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
+import { Container } from '@mui/material';
 import { getUserFromLocal } from './reducers/userReducer';
 import Notification from './components/Notification';
 import Menu from './components/Menu';
@@ -16,6 +17,7 @@ const path = {
   user: '/users/:id',
   blogs: '/blogs',
   blog: '/blogs/:id',
+  login: '/login',
 };
 
 const App = () => {
@@ -38,7 +40,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Container>
       <Menu blogsPath={path.blogs} usersPath={path.users} />
       {notification && <Notification />}
       <h1>Blogs</h1>
@@ -50,7 +52,7 @@ const App = () => {
         <Route path={path.users} element={<Users />} />
         <Route path={path.user} element={<User />} />
       </Routes>
-    </div>
+    </Container>
   );
 };
 

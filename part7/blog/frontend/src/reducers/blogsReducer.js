@@ -52,7 +52,7 @@ export const createBlog = (blog) => {
       dispatch(appendBlog(newBlog));
     } catch (error) {
       console.log('create blog error', error);
-      setNotification('Unable to add blog', 'red');
+      dispatch(setNotification('Unable to add blog', 'error'));
     }
   };
 };
@@ -77,10 +77,11 @@ export const removeBlog = (blog) => {
   return async (dispatch) => {
     try {
       await blogService.remove(blog);
-      dispatch(remove(blog));
+      dispatch(remove(blog)) &&
+        dispatch(setNotification(`Removed blog: ${blog.title}`, 'success'));
     } catch (error) {
       console.log('remove blog error', error);
-      setNotification('Blog already removed', 'red');
+      dispatch(setNotification('Blog already removed', 'error'));
     }
   };
 };

@@ -1,20 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../reducers/userReducer';
+import { AppBar, Button, IconButton, Toolbar } from '@mui/material';
 
 const Menu = ({ blogsPath, usersPath }) => {
-  const menuStyle = {
-    backgroundColor: '#d3d3d3',
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 5,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-  };
-
-  const padding = {
-    padding: 5,
+  const logoutStyle = {
+    fontSize: 10,
   };
 
   const currentUser = useSelector((state) => state.user);
@@ -29,20 +20,34 @@ const Menu = ({ blogsPath, usersPath }) => {
   };
 
   return (
-    <div style={menuStyle}>
-      <Link style={padding} to={blogsPath}>
-        blogs
-      </Link>
-      <Link style={padding} to={usersPath}>
-        users
-      </Link>
-      Logged in as {currentUser.name}{' '}
-      {
-        <button className='logoutButton' onClick={handleLogout}>
-          logout
-        </button>
-      }
-    </div>
+    <AppBar position="static">
+      <Toolbar>
+        <IconButton edge="start" color="primary" aria-label="menu"></IconButton>
+        {currentUser ? (
+          <div>
+            Logged in as <strong>{currentUser.name}</strong>
+            <Button
+              color="inherit"
+              type="submit"
+              className="logoutButton"
+              onClick={handleLogout}
+            >
+              <div style={logoutStyle}>(Logout)</div>
+            </Button>
+          </div>
+        ) : (
+          <Link to={'/login'}>login</Link>
+        )}
+        &nbsp;
+        <div>|</div>
+        <Button color="inherit" component={Link} to={blogsPath}>
+          blogs
+        </Button>
+        <Button color="inherit" component={Link} to={usersPath}>
+          users
+        </Button>
+      </Toolbar>
+    </AppBar>
   );
 };
 
