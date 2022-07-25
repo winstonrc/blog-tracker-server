@@ -4,8 +4,6 @@ interface bmiValues {
   units: string;
 }
 
-type Unit = 'kg' | 'lb';
-
 const parseArguments = (args: Array<string>): bmiValues => {
   if (args.length < 5) throw new Error('Not enough arguments');
   if (args.length > 5) throw new Error('Too many arguments');
