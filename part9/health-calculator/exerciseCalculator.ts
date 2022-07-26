@@ -78,21 +78,19 @@ export const parseAndCalculateExercises = (
   } else throw new Error('Provided values must be numbers!');
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const parseExerciseArguments = (args: Array<string>): arguments => {
-  if (args.length < 4) throw new Error('Not enough arguments');
+// const parseExerciseArguments = (args: Array<string>): arguments => {
+//   if (args.length < 4) throw new Error('Not enough arguments');
 
-  if (!isNaN(Number(args[2]))) {
-    return {
-      target: Number(args[2]),
-      array: args.slice(3).map((a: string) => {
-        return Number(a);
-      }),
-    };
-  } else throw new Error('Provided values must be numbers!');
-};
+//   if (!isNaN(Number(args[2]))) {
+//     return {
+//       target: Number(args[2]),
+//       array: args.slice(3).map((a: string) => {
+//         return Number(a);
+//       }),
+//     };
+//   } else throw new Error('Provided values must be numbers!');
+// };
 
-// Test parseExerciseArguments
 // try {
 // const { target, array } = parseExerciseArguments(process.argv);
 // const calculation = calculateExercises(target, array);

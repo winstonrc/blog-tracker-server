@@ -54,21 +54,19 @@ export const calculateBmi = (height: number, weight: number, unit: string) => {
   } else throw new Error('Cannot divide by 0!');
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const parseAndCalculateBmi = (args: Array<string>): bmiValues => {
-  if (args.length < 5) throw new Error('Not enough arguments');
-  if (args.length > 5) throw new Error('Too many arguments');
+// const parseAndCalculateBmi = (args: Array<string>): bmiValues => {
+//   if (args.length < 5) throw new Error('Not enough arguments');
+//   if (args.length > 5) throw new Error('Too many arguments');
 
-  if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
-    return {
-      height: Number(args[2]),
-      weight: Number(args[3]),
-      units: args[4],
-    };
-  } else throw new Error('Provided values must be numbers!');
-};
+//   if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+//     return {
+//       height: Number(args[2]),
+//       weight: Number(args[3]),
+//       units: args[4],
+//     };
+//   } else throw new Error('Provided values must be numbers!');
+// };
 
-// Test parseAndCalculateBmi()
 // try {
 //   const { height, weight, units } = parseAndCalculateBmi(process.argv);
 //   const bmi = calculateBmi(height, weight, units);
