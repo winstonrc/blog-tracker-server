@@ -9,21 +9,6 @@ const bmiCategories = [
   'Obese (class III)',
 ];
 
-const calculateBmi = (height: number, weight: number, unit: string) => {
-  if (height !== 0 && weight !== 0) {
-    const bmi = weight / Math.pow(height, 2);
-
-    switch (unit) {
-      case 'metric':
-        return analyzeBmi(bmi);
-      case 'imperial':
-        return analyzeBmi(bmi * 703);
-      default:
-        throw new Error('Provided unit must be either metric or imperial');
-    }
-  } else throw new Error('Cannot divide by 0!');
-};
-
 const analyzeBmi = (bmi: number): string => {
   let prefix = '';
 
@@ -46,6 +31,21 @@ const analyzeBmi = (bmi: number): string => {
   }
 
   return `BMI: ${bmi.toFixed(2)} - ${prefix}`;
+};
+
+const calculateBmi = (height: number, weight: number, unit: string) => {
+  if (height !== 0 && weight !== 0) {
+    const bmi = weight / Math.pow(height, 2);
+
+    switch (unit) {
+      case 'metric':
+        return analyzeBmi(bmi);
+      case 'imperial':
+        return analyzeBmi(bmi * 703);
+      default:
+        throw new Error('Provided unit must be either metric or imperial');
+    }
+  } else throw new Error('Cannot divide by 0!');
 };
 
 export const parseAndCalculateBMI = (
