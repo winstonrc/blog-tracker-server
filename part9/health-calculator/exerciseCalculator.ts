@@ -1,6 +1,6 @@
 interface arguments {
   target: number;
-  hoursArray: Array<number>;
+  array: Array<number>;
 }
 
 interface result {
@@ -19,7 +19,9 @@ const parseExerciseArguments = (args: Array<string>): arguments => {
   if (!isNaN(Number(args[2]))) {
     return {
       target: Number(args[2]),
-      hoursArray: Array(Number(args[3])),
+      array: args.slice(3).map((a: string) => {
+        return Number(a);
+      }),
     };
   } else throw new Error('Provided values must be numbers!');
 };
@@ -32,10 +34,9 @@ const calculateExercises = (
 
   const trainingDays = hoursLog.filter((h) => h > 0).length;
 
-  let sum = 0;
-  hoursLog.map((dayHours) => (sum += dayHours));
+  const sum = hoursLog.reduce((acc, cur) => acc + cur, 0);
 
-  const average = sum / periodLength;
+  const average = Math.round((sum / periodLength) * 100) / 100;
 
   const success = average >= target;
 
@@ -71,18 +72,19 @@ const calculateExercises = (
 };
 
 try {
-  // const { target, hoursArray } = parseExerciseArguments(process.argv);
-  const target: number = 2;
-  const hoursArray: Array<number> = [0, 0, 2, 2, 0, 3, 1];
-  const calculation = calculateExercises(target, hoursArray);
+  const { target, array } = parseExerciseArguments(process.argv);
+  // const target: number = 2;
+  // const array: Array<number> = [0, 0, 2, 2, 0, 3, 1];
+  const calculation = calculateExercises(target, array);
   console.log(
-    `periodLength: ${calculation.periodLength},
+    `Results:
+    periodLength: ${calculation.periodLength},
     trainingDays: ${calculation.trainingDays},
     success: ${calculation.success},
     rating: ${calculation.rating},
     ratingDescription: ${calculation.ratingDescription},
     target: ${calculation.target},
-    average: ${calculation.average},`
+    average: ${calculation.average}`
   );
 } catch (error: unknown) {
   let errorMessage = 'Something went wrong.';
