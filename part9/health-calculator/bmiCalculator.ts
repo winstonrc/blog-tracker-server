@@ -48,7 +48,11 @@ const analyzeBmi = (bmi: number): string => {
   return `BMI: ${bmi.toFixed(2)} - ${prefix}`;
 };
 
-export const parseAndCalculateBMI = (arg1: any, arg2: any, arg3: any) => {
+export const parseAndCalculateBMI = (
+  arg1: number,
+  arg2: number,
+  arg3: string
+) => {
   console.log('arg1', arg1);
   console.log('arg2', arg2);
   console.log('arg3', arg3);
@@ -59,8 +63,8 @@ export const parseAndCalculateBMI = (arg1: any, arg2: any, arg3: any) => {
     );
   }
 
-  const height = parseFloat(arg1);
-  const weight = parseFloat(arg2);
+  const height = Number(arg1);
+  const weight = Number(arg2);
   const unit = arg3;
 
   if (!isNaN(Number(arg1)) && !isNaN(Number(arg2))) {

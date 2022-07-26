@@ -9,9 +9,22 @@ app.get('/hello', (_req, res) => {
 });
 
 app.get('/bmi', (req, res) => {
-  const height = req.query.height;
-  const weight = req.query.weight;
-  const unit = req.query.unit;
+  const height = Number(req.query.height);
+  const weight = Number(req.query.weight);
+  const unit = String(req.query.unit);
+
+  if (!height) {
+    res.send({ error: 'height parameter missing' });
+  }
+
+  if (!weight) {
+    res.send({ error: 'weight parameter missing' });
+  }
+
+  if (!unit) {
+    res.send({ error: 'unit parameter missing' });
+  }
+
   const bmi = parseAndCalculateBMI(height, weight, unit);
 
   let heightAppendix = '';
