@@ -59,11 +59,10 @@ export const parseAndCalculateBMI = (
     );
   }
 
-  const height = Number(arg1);
-  const weight = Number(arg2);
-  const unit = arg3;
-
   if (!isNaN(Number(arg1)) && !isNaN(Number(arg2))) {
+    const height = Number(arg1);
+    const weight = Number(arg2);
+    const unit = arg3;
     return calculateBmi(height, weight, unit);
   } else throw new Error('Height and Weight values must be numbers!');
 };
