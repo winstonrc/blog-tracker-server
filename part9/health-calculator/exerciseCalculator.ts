@@ -1,8 +1,3 @@
-interface arguments {
-  target: number;
-  array: Array<number>;
-}
-
 interface result {
   periodLength: number;
   trainingDays: number;
@@ -77,6 +72,13 @@ export const parseAndCalculateExercises = (
     return calculateExercises(target, dailyExercises);
   } else throw new Error('Provided values must be numbers!');
 };
+
+// Exercises 9.1 - 9.3
+
+// interface arguments {
+//   target: number;
+//   array: Array<number>;
+// }
 
 // const parseExerciseArguments = (args: Array<string>): arguments => {
 //   if (args.length < 4) throw new Error('Not enough arguments');

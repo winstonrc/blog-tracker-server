@@ -1,9 +1,3 @@
-interface bmiValues {
-  height: number;
-  weight: number;
-  units: string;
-}
-
 const bmiCategories = [
   'Underweight (Severe thinness)',
   'Underweight (Moderate thinness)',
@@ -53,6 +47,14 @@ export const calculateBmi = (height: number, weight: number, unit: string) => {
     }
   } else throw new Error('Cannot divide by 0!');
 };
+
+// Exercises 9.1 - 9.3
+
+// interface bmiValues {
+//   height: number;
+//   weight: number;
+//   units: string;
+// }
 
 // const parseAndCalculateBmi = (args: Array<string>): bmiValues => {
 //   if (args.length < 5) throw new Error('Not enough arguments');
