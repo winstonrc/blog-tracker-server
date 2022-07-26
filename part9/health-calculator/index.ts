@@ -1,8 +1,11 @@
-import express from 'express';
-import { parseAndCalculateBMI } from './bmiCalculator';
+import express, { response } from 'express';
+import { calculateBmi } from './bmiCalculator';
+import { calculateExercises } from './exerciseCalculator';
 
 const app = express();
 const PORT = 3002;
+
+app.use(express.json());
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
@@ -25,7 +28,7 @@ app.get('/bmi', (req, res) => {
     res.send({ error: 'unit parameter missing' });
   }
 
-  const bmi = parseAndCalculateBMI(height, weight, unit);
+  const bmi = calculateBmi(height, weight, unit);
 
   let heightAppendix = '';
   if (unit === 'metric') {
@@ -47,6 +50,23 @@ app.get('/bmi', (req, res) => {
     unit,
     bmi,
   });
+});
+
+app.post('/exercises', (req, res) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { target, daily_exercises } = req.body;
+
+  if (!target || !daily_exercises) {
+    return res.status(400).json({ error: 'parameters missing' }).end();
+  }
+
+  if (isNaN(Number(target)) || typeof daily_exercises === 'string') {
+    return res.status(400).json({ error: 'malformatted paramaters' }).end();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const result = calculateExercises(target, daily_exercises);
+  return response.json(result);
 });
 
 app.listen(PORT, () => {

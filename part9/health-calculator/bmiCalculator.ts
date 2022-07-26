@@ -1,3 +1,9 @@
+interface bmiValues {
+  height: number;
+  weight: number;
+  units: string;
+}
+
 const bmiCategories = [
   'Underweight (Severe thinness)',
   'Underweight (Moderate thinness)',
@@ -33,7 +39,7 @@ const analyzeBmi = (bmi: number): string => {
   return `BMI: ${bmi.toFixed(2)} - ${prefix}`;
 };
 
-const calculateBmi = (height: number, weight: number, unit: string) => {
+export const calculateBmi = (height: number, weight: number, unit: string) => {
   if (height !== 0 && weight !== 0) {
     const bmi = weight / Math.pow(height, 2);
 
@@ -48,21 +54,29 @@ const calculateBmi = (height: number, weight: number, unit: string) => {
   } else throw new Error('Cannot divide by 0!');
 };
 
-export const parseAndCalculateBMI = (
-  arg1: number,
-  arg2: number,
-  arg3: string
-) => {
-  if (!arg1 || !arg2 || !arg3) {
-    throw new Error(
-      'Not enough arguments. Provide Height, Weight, and Unit respectively.'
-    );
-  }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const parseAndCalculateBmi = (args: Array<string>): bmiValues => {
+  if (args.length < 5) throw new Error('Not enough arguments');
+  if (args.length > 5) throw new Error('Too many arguments');
 
-  if (!isNaN(Number(arg1)) && !isNaN(Number(arg2))) {
-    const height = Number(arg1);
-    const weight = Number(arg2);
-    const unit = arg3;
-    return calculateBmi(height, weight, unit);
-  } else throw new Error('Height and Weight values must be numbers!');
+  if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+    return {
+      height: Number(args[2]),
+      weight: Number(args[3]),
+      units: args[4],
+    };
+  } else throw new Error('Provided values must be numbers!');
 };
+
+// Test parseAndCalculateBmi()
+// try {
+//   const { height, weight, units } = parseAndCalculateBmi(process.argv);
+//   const bmi = calculateBmi(height, weight, units);
+//   console.log(bmi);
+// } catch (error: unknown) {
+//   let errorMessage = 'Something went wrong.';
+//   if (error instanceof Error) {
+//     errorMessage += ` Error: ${error.message}`;
+//   }
+//   console.log(errorMessage);
+// }

@@ -13,28 +13,15 @@ interface result {
   average: number;
 }
 
-const parseExerciseArguments = (args: Array<string>): arguments => {
-  if (args.length < 4) throw new Error('Not enough arguments');
-
-  if (!isNaN(Number(args[2]))) {
-    return {
-      target: Number(args[2]),
-      array: args.slice(3).map((a: string) => {
-        return Number(a);
-      }),
-    };
-  } else throw new Error('Provided values must be numbers!');
-};
-
-const calculateExercises = (
+export const calculateExercises = (
   target: number,
-  hoursLog: Array<number>
+  dailyExercises: Array<number>
 ): result => {
-  const periodLength = hoursLog.length;
+  const periodLength = dailyExercises.length;
 
-  const trainingDays = hoursLog.filter((h) => h > 0).length;
+  const trainingDays = dailyExercises.filter((h) => h > 0).length;
 
-  const sum = hoursLog.reduce((acc, cur) => acc + cur, 0);
+  const sum = dailyExercises.reduce((acc, cur) => acc + cur, 0);
 
   const average = Math.round((sum / periodLength) * 100) / 100;
 
@@ -71,25 +58,58 @@ const calculateExercises = (
   };
 };
 
-try {
-  const { target, array } = parseExerciseArguments(process.argv);
-  // const target: number = 2;
-  // const array: Array<number> = [0, 0, 2, 2, 0, 3, 1];
-  const calculation = calculateExercises(target, array);
-  console.log(
-    `Results:
-    periodLength: ${calculation.periodLength},
-    trainingDays: ${calculation.trainingDays},
-    success: ${calculation.success},
-    rating: ${calculation.rating},
-    ratingDescription: ${calculation.ratingDescription},
-    target: ${calculation.target},
-    average: ${calculation.average}`
-  );
-} catch (error: unknown) {
-  let errorMessage = 'Something went wrong.';
-  if (error instanceof Error) {
-    errorMessage += ` Error: ${error.message}`;
+export const parseAndCalculateExercises = (
+  arg1: number,
+  arg2: Array<number>
+) => {
+  if (!arg1 || !arg2) {
+    throw new Error(
+      'Not enough arguments. Provide target and daily_exercises respectively.'
+    );
   }
-  console.log(errorMessage);
-}
+
+  if (!isNaN(Number(arg1))) {
+    const target = Number(arg1);
+    const dailyExercises = arg2.slice(1).map((a: number) => {
+      return Number(a);
+    });
+
+    return calculateExercises(target, dailyExercises);
+  } else throw new Error('Provided values must be numbers!');
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const parseExerciseArguments = (args: Array<string>): arguments => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+
+  if (!isNaN(Number(args[2]))) {
+    return {
+      target: Number(args[2]),
+      array: args.slice(3).map((a: string) => {
+        return Number(a);
+      }),
+    };
+  } else throw new Error('Provided values must be numbers!');
+};
+
+// Test parseExerciseArguments
+// try {
+// const { target, array } = parseExerciseArguments(process.argv);
+// const calculation = calculateExercises(target, array);
+// console.log(
+// `Results:
+// periodLength: ${calculation.periodLength},
+// trainingDays: ${calculation.trainingDays},
+// success: ${calculation.success},
+// rating: ${calculation.rating},
+// ratingDescription: ${calculation.ratingDescription},
+// target: ${calculation.target},
+// average: ${calculation.average}`
+// );
+// } catch (error: unknown) {
+// let errorMessage = 'Something went wrong.';
+// if (error instanceof Error) {
+// errorMessage += ` Error: ${error.message}`;
+// }
+// console.log(errorMessage);
+// }
