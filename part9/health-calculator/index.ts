@@ -1,4 +1,4 @@
-import express, { response } from 'express';
+import express from 'express';
 import { calculateBmi } from './bmiCalculator';
 import { calculateExercises } from './exerciseCalculator';
 
@@ -16,16 +16,12 @@ app.get('/bmi', (req, res) => {
   const weight = Number(req.query.weight);
   const unit = String(req.query.unit);
 
-  if (!height) {
-    res.send({ error: 'height parameter missing' });
+  if (!height || !weight || !unit) {
+    res.status(400).send({ error: 'parameters missing' });
   }
 
-  if (!weight) {
-    res.send({ error: 'weight parameter missing' });
-  }
-
-  if (!unit) {
-    res.send({ error: 'unit parameter missing' });
+  if (isNaN(height) || isNaN(weight) || typeof unit !== 'string') {
+    res.status(400).send({ error: 'malformatted parameters' });
   }
 
   const bmi = calculateBmi(height, weight, unit);
@@ -53,20 +49,22 @@ app.get('/bmi', (req, res) => {
 });
 
 app.post('/exercises', (req, res) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const target = Number(req.body.target);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { target, daily_exercises } = req.body;
+  const { daily_exercises } = req.body;
 
   if (!target || !daily_exercises) {
-    return res.status(400).json({ error: 'parameters missing' }).end();
+    return res.status(400).send({ error: 'parameters missing' });
   }
 
   if (isNaN(Number(target)) || typeof daily_exercises === 'string') {
-    return res.status(400).json({ error: 'malformatted paramaters' }).end();
+    return res.status(400).send({ error: 'malformatted paramaters' });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const result = calculateExercises(target, daily_exercises);
-  return response.json(result);
+  return res.send(result);
 });
 
 app.listen(PORT, () => {
