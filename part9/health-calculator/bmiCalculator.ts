@@ -53,10 +53,6 @@ export const parseAndCalculateBMI = (
   arg2: number,
   arg3: string
 ) => {
-  console.log('arg1', arg1);
-  console.log('arg2', arg2);
-  console.log('arg3', arg3);
-
   if (!arg1 || !arg2 || !arg3) {
     throw new Error(
       'Not enough arguments. Provide Height, Weight, and Unit respectively.'
