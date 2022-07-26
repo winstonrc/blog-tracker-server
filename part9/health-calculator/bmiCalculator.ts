@@ -12,15 +12,12 @@ const bmiCategories = [
 const calculateBmi = (height: number, weight: number, unit: string) => {
   if (height !== 0 && weight !== 0) {
     const bmi = weight / Math.pow(height, 2);
-    // const bmi = ((weight / (height * height)) * 100) / 100;
 
     switch (unit) {
       case 'metric':
         return analyzeBmi(bmi);
-      // return Math.round((weight / (height * height)) * 100) / 100;
       case 'imperial':
         return analyzeBmi(bmi * 703);
-      // return Math.round(((weight * 703) / (height * height)) * 100) / 100;
       default:
         throw new Error('Provided unit must be either metric or imperial');
     }
