@@ -11,8 +11,15 @@ const getNonSensitiveData = (): NonSensitivePatient[] => {
   }));
 };
 
+const getNonSensitiveDataById = (
+  id: string
+): NonSensitivePatient | undefined => {
+  const patient = getNonSensitiveData().find((p) => p.id === id);
+  return patient;
+};
+
 const addData = () => {
   return [];
 };
 
-export default { getNonSensitiveData, addData };
+export default { getNonSensitiveData, getNonSensitiveDataById, addData };
