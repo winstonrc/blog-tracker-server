@@ -44,7 +44,8 @@ export const login = (usernameObject, passwordObject) => {
 
 export const logout = () => {
   return async (dispatch) => {
-    dispatch(setUser(null));
+    dispatch(setUser(null)) &&
+      dispatch(setNotification('Successfully logged out', 'success'));
   };
 };
 
