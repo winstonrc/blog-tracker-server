@@ -40,17 +40,17 @@ const Comments = ({ blogId }) => {
             {comments
               .slice()
               .reverse()
-              .map((c) => (
-                <TableRow key={c.id}>
-                  {c.user ? (
+              .map((comment) => (
+                <TableRow key={comment.id}>
+                  {comment.user ? (
                     <TableCell>
-                      <strong>{c.user.name}</strong>: {c.text} <br></br>(
-                      {formatDate(c.date)})
+                      <strong>{comment.user.name}</strong>: {comment.text}
+                      <br></br>({formatDate(comment.date)})
                     </TableCell>
                   ) : (
                     <TableCell>
-                      {c.text}
-                      <br></br>({formatDate(c.date)})
+                      {comment.text}
+                      <br></br>({formatDate(comment.date)})
                     </TableCell>
                   )}
                 </TableRow>
