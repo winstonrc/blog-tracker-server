@@ -44,6 +44,7 @@ const Comments = ({ blogId }) => {
                 <TableRow key={comment.id}>
                   {comment.user ? (
                     <TableCell>
+                      {/* After a new comment is added, the name appears blank */}
                       <strong>{comment.user.name}</strong>: {comment.text}
                       <br></br>({formatDate(comment.date)})
                     </TableCell>

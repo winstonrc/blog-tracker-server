@@ -22,7 +22,6 @@ const path = {
 
 const App = () => {
   const notification = useSelector((state) => state.notification);
-  const currentUser = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   // check for logged in user when page loads
@@ -30,23 +29,19 @@ const App = () => {
     dispatch(getUserFromLocal());
   }, [dispatch]);
 
-  if (currentUser === null) {
-    return (
-      <div>
-        {notification && <Notification />}
-        <LoginForm />
-      </div>
-    );
-  }
-
   return (
     <Container>
-      <Menu blogsPath={path.blogs} usersPath={path.users} />
+      <Menu
+        loginPath={path.login}
+        blogsPath={path.blogs}
+        usersPath={path.users}
+      />
       {notification && <Notification />}
       <h1>Blogs</h1>
 
       <Routes>
         <Route path={path.home} element={<BlogList />} />
+        <Route path={path.login} element={<LoginForm />} />
         <Route path={path.blogs} element={<BlogList />} />
         <Route path={path.blog} element={<BlogDetail />} />
         <Route path={path.users} element={<Users />} />

@@ -32,7 +32,12 @@ export const createComment = (blogId, text) => {
         dispatch(setNotification('Comment added', 'success'));
     } catch (error) {
       console.log('create comment error', error);
-      dispatch(setNotification('Unable to create comment', 'error'));
+
+      if (error.message === 'Request failed with status code 401') {
+        dispatch(setNotification('Must be logged in to add blog', 'error'));
+      } else {
+        dispatch(setNotification('Unable to add blog', 'error'));
+      }
     }
   };
 };

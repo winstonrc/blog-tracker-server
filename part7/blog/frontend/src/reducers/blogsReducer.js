@@ -52,7 +52,12 @@ export const createBlog = (blog) => {
       dispatch(appendBlog(newBlog));
     } catch (error) {
       console.log('create blog error', error);
-      dispatch(setNotification('Unable to add blog', 'error'));
+
+      if (error.message === 'Request failed with status code 401') {
+        dispatch(setNotification('Must be logged in to add blog', 'error'));
+      } else {
+        dispatch(setNotification('Unable to add blog', 'error'));
+      }
     }
   };
 };

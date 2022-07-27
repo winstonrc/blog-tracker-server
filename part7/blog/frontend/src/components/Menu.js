@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { logout } from '../reducers/userReducer';
 import { AppBar, Button, IconButton, Toolbar } from '@mui/material';
 
-const Menu = ({ blogsPath, usersPath }) => {
+const Menu = ({ loginPath, blogsPath, usersPath }) => {
   const logoutStyle = {
     fontSize: 10,
   };
@@ -11,11 +11,9 @@ const Menu = ({ blogsPath, usersPath }) => {
   const currentUser = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleLogout = (event) => {
     event.preventDefault();
-    navigate('/');
     dispatch(logout());
   };
 
@@ -36,10 +34,11 @@ const Menu = ({ blogsPath, usersPath }) => {
             </Button>
           </div>
         ) : (
-          <Link to={'/login'}>login</Link>
+          <Button color="inherit" component={Link} to={loginPath}>
+            login
+          </Button>
         )}
-        &nbsp;
-        <div>|</div>
+        &nbsp;|
         <Button color="inherit" component={Link} to={blogsPath}>
           blogs
         </Button>
