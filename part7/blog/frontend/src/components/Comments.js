@@ -20,20 +20,39 @@ const Comments = ({ blogId }) => {
     dispatch(getComments(blogId));
   }, [dispatch]);
 
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleString();
+  };
+
   return (
     <div>
-      <h3>Comments</h3>
+      <br></br>
       <CommentForm blogId={blogId} />
       <br></br>
       <TableContainer component={Paper}>
         <Table>
           <TableBody>
+            <TableRow>
+              <TableCell>
+                <strong>Comments</strong>
+              </TableCell>
+            </TableRow>
             {comments
               .slice()
               .reverse()
               .map((c) => (
                 <TableRow key={c.id}>
-                  <TableCell>{c.text}</TableCell>
+                  {c.user ? (
+                    <TableCell>
+                      <strong>{c.user.name}</strong>: {c.text} <br></br>(
+                      {formatDate(c.date)})
+                    </TableCell>
+                  ) : (
+                    <TableCell>
+                      {c.text}
+                      <br></br>({formatDate(c.date)})
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
           </TableBody>

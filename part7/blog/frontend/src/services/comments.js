@@ -1,4 +1,6 @@
 import axios from 'axios';
+import tokenUtils from '../utils/tokenUtils';
+
 const baseUrl = (id) => `/api/blogs/${id}/comments`;
 
 const getAll = (id) => {
@@ -7,7 +9,15 @@ const getAll = (id) => {
 };
 
 const create = async (id, text) => {
-  const response = await axios.post(baseUrl(id), { text: text });
+  const config = {
+    headers: { Authorization: tokenUtils.getToken() },
+  };
+
+  const newObject = {
+    text: text,
+  };
+
+  const response = await axios.post(baseUrl(id), newObject, config);
   return response.data;
 };
 
