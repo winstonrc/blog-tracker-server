@@ -12,7 +12,7 @@ const Blog = () => {
 
   const blog = match ? blogs.find((b) => b.id === match.params.id) : null;
 
-  if (!user || !blog) {
+  if (!blog) {
     return null;
   }
 
@@ -45,7 +45,7 @@ const Blog = () => {
         <div>
           Added by <Link to={`/users/${blog.user.id}`}>{blog.user.name}</Link>
         </div>
-        {blog.user.username === user.username ? (
+        {user && blog.user.username === user.username ? (
           <button
             onClick={() => onClickRemove(blog)}
             className="removeBlogButton"
