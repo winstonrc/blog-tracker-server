@@ -1,4 +1,4 @@
-import { NewDiaryEntry, Weather, Visibility } from '../types';
+import { NewDiaryEntry, Weather, Visibility } from './types';
 
 type Fields = {
   date: unknown;
