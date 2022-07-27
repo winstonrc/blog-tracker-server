@@ -20,34 +20,9 @@ const Comments = ({ blogId }) => {
     dispatch(getComments(blogId));
   }, [dispatch]);
 
-  // const onClickAddComment = async (event) => {
-  //   event.preventDefault();
-
-  //   // prevent empty comment
-  //   if (comment.props.value === '') {
-  //     return;
-  //   }
-
-  //   const text = comment.props.value;
-  //   if (text) {
-  //     dispatch(createComment(blogId, text));
-  //     comment.reset();
-  //   }
-  // };
-
   return (
     <div>
       <h3>Comments</h3>
-      {/* <form className="commentForm">
-        <input className="commentInput" {...comment.props} />{' '}
-        <button
-          type="submit"
-          className="commentForm"
-          onClick={onClickAddComment}
-        >
-          add comment
-        </button>
-      </form> */}
       <CommentForm blogId={blogId} />
       <br></br>
       <TableContainer component={Paper}>
