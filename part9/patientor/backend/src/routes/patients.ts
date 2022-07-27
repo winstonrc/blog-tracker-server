@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import express from 'express';
 import patientService from '../services/patientService';
+import { v1 as uuidv1 } from 'uuid';
 
 const router = express.Router();
 
 router.get('/', (_req, res) => {
-  res.send(patientService.getNonSensitiveData());
+  res.send(patientService.getNonSensitivePatient());
 });
 
 router.get('/:id', (req, res) => {
@@ -17,8 +19,18 @@ router.get('/:id', (req, res) => {
   }
 });
 
-router.post('/', (_req, res) => {
-  res.send(patientService.addData());
+router.post('/', (req, res) => {
+  const { name, dateOfBirth, ssn, gender, occupation } = req.body;
+  const id = uuidv1();
+  const newPatient = patientService.addPatient(id, {
+    name,
+    dateOfBirth,
+    ssn,
+    gender,
+    occupation,
+  });
+
+  res.json(newPatient);
 });
 
 export default router;
