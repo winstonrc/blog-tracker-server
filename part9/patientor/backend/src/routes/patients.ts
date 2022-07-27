@@ -22,6 +22,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   try {
     const id = uuidv1();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const newPatient = toNewPatient(req.body);
     const addedPatient = patientService.addPatient(id, newPatient);
 
