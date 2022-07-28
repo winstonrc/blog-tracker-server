@@ -1,6 +1,7 @@
 import Part from './Part';
+import { CoursePart } from '../types';
 
-const Content = ({ parts }) => {
+const Content = ({ parts }: { parts: CoursePart[] }) => {
   return (
     <div>
       {parts.map((part) => (
