@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Container } from '@mui/material';
 import { getUserFromLocal } from './reducers/userReducer';
 import Notification from './components/Notification';
@@ -21,6 +21,7 @@ const path = {
 };
 
 const App = () => {
+  const user = useSelector((state) => state.user);
   const notification = useSelector((state) => state.notification);
   const dispatch = useDispatch();
 
@@ -41,7 +42,10 @@ const App = () => {
 
       <Routes>
         <Route path={path.home} element={<BlogList />} />
-        <Route path={path.login} element={<LoginForm />} />
+        <Route
+          path={path.login}
+          element={user ? <Navigate to={'/'} /> : <LoginForm />}
+        />
         <Route path={path.blogs} element={<BlogList />} />
         <Route path={path.blog} element={<BlogDetail />} />
         <Route path={path.users} element={<Users />} />
