@@ -10,7 +10,7 @@ router.get('/', (_req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const patient = patientService.getNonSensitiveDataById(req.params.id);
+  const patient = patientService.getNonSensitivePatientById(req.params.id);
 
   if (patient) {
     res.send(patient);
