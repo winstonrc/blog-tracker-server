@@ -2,13 +2,16 @@ import patients from '../data/patients';
 import { Patient, NonSensitivePatient, NewPatient } from '../types';
 
 const getNonSensitivePatient = (): NonSensitivePatient[] => {
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
-    id,
-    name,
-    dateOfBirth,
-    gender,
-    occupation,
-  }));
+  return patients.map(
+    ({ id, name, dateOfBirth, gender, occupation, entries }) => ({
+      id,
+      name,
+      dateOfBirth,
+      gender,
+      occupation,
+      entries,
+    })
+  );
 };
 
 const getNonSensitivePatientById = (
