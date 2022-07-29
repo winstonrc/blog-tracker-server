@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/main.c8936afc.css","mappings":"AAAA,MACE,qBAAsB,CACtB,UACF,CAEA,OACE,qBAAsB,CACtB,UACF","sources":["darkMode.css"],"sourcesContent":[".dark {\n  background-color: #333;\n  color: #fff;\n}\n\n.light {\n  background-color: #fff;\n  color: #333;\n}"],"names":[],"sourceRoot":""}
