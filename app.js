@@ -3,6 +3,7 @@ require('express-async-errors');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const config = require('./utils/config');
+const path = require('path');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const blogsRouter = require('./controllers/blogs');
@@ -45,6 +46,14 @@ if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing');
   app.use('/api/testing', testingRouter);
 }
+
+app.get('*', (_req, res) => {
+  let url = path.join(__dirname, '../client/build', 'index.html');
+  if (!url.startsWith('/app/'))
+    // since we're on local windows
+    url = url.substring(1);
+  res.sendFile(url);
+});
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
