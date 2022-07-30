@@ -30,26 +30,29 @@ app.use(express.json());
 app.use(middleware.tokenExtractor);
 app.use(middleware.requestLogger);
 
-app.use('/api/users', usersRouter);
-app.use('/api/login', loginRouter);
-app.use('/api/blogs', blogsRouter);
-app.use(
-  '/api/blogs/:id/comments',
-  (request, response, next) => {
-    request.args = request.params;
-    next();
-  },
-  commentsRouter
-);
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
+}
 
 if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing');
   app.use('/api/testing', testingRouter);
 }
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build/index.html'));
-});
+app.use('/api/users', usersRouter);
+app.use('/api/login', loginRouter);
+app.use('/api/blogs', blogsRouter);
+app.use(
+  '/api/blogs/:id/comments',
+  (request, _response, next) => {
+    request.args = request.params;
+    next();
+  },
+  commentsRouter
+);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
