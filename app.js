@@ -42,12 +42,6 @@ app.use(
   commentsRouter
 );
 
-if (process.env.NODE_ENV === 'production') {
-  app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '/build', 'index.html'));
-  });
-}
-
 if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing');
   app.use('/api/testing', testingRouter);
