@@ -30,17 +30,6 @@ app.use(express.json());
 app.use(middleware.tokenExtractor);
 app.use(middleware.requestLogger);
 
-if (process.env.NODE_ENV === 'production') {
-  app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '/build', 'index.html'));
-  });
-}
-
-if (process.env.NODE_ENV === 'test') {
-  const testingRouter = require('./controllers/testing');
-  app.use('/api/testing', testingRouter);
-}
-
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/blogs', blogsRouter);
@@ -52,6 +41,17 @@ app.use(
   },
   commentsRouter
 );
+
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(__dirname, '/build', 'index.html'));
+  });
+}
+
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing');
+  app.use('/api/testing', testingRouter);
+}
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
