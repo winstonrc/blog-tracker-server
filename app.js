@@ -47,12 +47,8 @@ if (process.env.NODE_ENV === 'test') {
   app.use('/api/testing', testingRouter);
 }
 
-app.get('*', (_req, res) => {
-  let url = path.join(__dirname, '../client/build', 'index.html');
-  if (!url.startsWith('/app/'))
-    // since we're on local windows
-    url = url.substring(1);
-  res.sendFile(url);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
 
 app.use(middleware.unknownEndpoint);
