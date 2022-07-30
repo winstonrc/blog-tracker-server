@@ -5,7 +5,7 @@ const logger = require('./utils/logger');
 
 const server = http.createServer(app);
 
-app.get('*', (_req, res) => {
+server.get('*', (_req, res) => {
   let url = path.join(__dirname, '../client/build', 'index.html');
   if (!url.startsWith('/app/'))
     // since we're on local windows
