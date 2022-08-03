@@ -30,10 +30,22 @@ usersRouter.get('/:id', async (request, response) => {
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body;
 
-  const passwordMinLength = 3;
+  const passwordMinLength = 6;
   if (password.length < passwordMinLength) {
     return response.status(400).json({
       error: `User validation failed: password: Path \`password\` is shorter than the minimum allowed length (${passwordMinLength}).`,
+    });
+  }
+
+  if (username === '') {
+    return response.status(400).json({
+      error: `User validation failed: Username required.`,
+    });
+  }
+
+  if (name === '') {
+    return response.status(400).json({
+      error: `User validation failed: Name required.`,
     });
   }
 

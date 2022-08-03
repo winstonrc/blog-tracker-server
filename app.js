@@ -3,6 +3,7 @@ require('express-async-errors');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const config = require('./utils/config');
+const path = require('path');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const blogsRouter = require('./controllers/blogs');
@@ -34,15 +35,30 @@ app.use('/api/login', loginRouter);
 app.use('/api/blogs', blogsRouter);
 app.use(
   '/api/blogs/:id/comments',
-  (request, response, next) => {
+  (request, _response, next) => {
     request.args = request.params;
     next();
   },
   commentsRouter
 );
 
+if (process.env.NODE_ENV === 'production') {
+  let protected = ['favicon.ico'];
+
+  app.get('*', (req, res) => {
+    let path = req.params['0'].substring(1);
+
+    if (protected.includes(path)) {
+      // Return the actual file
+      res.sendFile(`${__dirname}/build/${path}`);
+    } else {
+      // Otherwise, redirect to /build/index.html
+      res.sendFile(`${__dirname}/build/index.html`);
+    }
+  });
+}
+
 if (process.env.NODE_ENV === 'test') {
-  // eslint-disable-next-line global-require
   const testingRouter = require('./controllers/testing');
   app.use('/api/testing', testingRouter);
 }
