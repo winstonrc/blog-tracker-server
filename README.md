@@ -9,8 +9,11 @@ Client can be found [here](https://github.com/winstoncooke/blog-tracker-client)
 ## Tech Stack
 
 **Frontend**: JavaScript, React, Redux
+
 **Backend**: Node, Express, MongoDB
+
 **Theming**: Material UI
+
 **Testing**: Jest, Postman, Cypress
 
 ## Features
