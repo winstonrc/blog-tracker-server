@@ -20,8 +20,8 @@ Client can be found [here](https://github.com/winstoncooke/blog-tracker-client)
 
 * Dark mode (automatically set by browser preference & can be overridden with a toggle)
 * Quickly filter blogs by title or author
-* User accounts are implemented using token-based authentication
-* Blog posts are sorted by most liked to least
-* Logged in users can add blogs and comment on them
+* User accounts implemented using token-based authentication
+* Blog posts sorted by most liked to least
+* Logged in users can add blogs and comments
 * All users can like blog posts
 * Clicking on a user shows which blogs they have added
