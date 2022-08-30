@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit",
-    "build:ui": "rm -rf build && cd ../blog-tracker-client/ && npm run build && cp -r build ../blog-tracker-server",
+    "build": "rm -rf build && cd ../blog-tracker-client/ && npm run build && cp -r build ../blog-tracker-server",
     "deploy": "git push origin main",
     "deploy:nogit": "npm run build:ui && npm run deploy",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
